@@ -1,0 +1,155 @@
+{
+  "sejarah": "KIR MAN 2 Kota Bogor didirikan di Bogor pada tanggal 16 Februari 2005. Berkedudukan di Jalan Raya Pajajaran No. 6 Kota Bogor, di bawah naungan Wakil Kepala Bidang Kesiswaan MAN 2 Kota Bogor.",
+
+  "dasar_dan_asas": "KIR berdasarkan Pancasila dan UUD 1945 serta aturan yang berlaku. Asasnya bersikap ilmiah, kritis, dan inovatif, disertai akhlaqul karimah dan bermusyawarah untuk mufakat.",
+
+  "tujuan_dan_fungsi": "KIR bertujuan sebagai kegiatan ekstrakurikuler di bidang ilmu pengetahuan, dan berfungsi sebagai wadah pengembangan diri dan bakat peserta didik yang berlandaskan keilmiahan.",
+
+  "visi_misi": {
+    "status": "resmi, periode kepengurusan saat ini",
+    "visi": "Menjadikan KIR MAN 2 Kota Bogor sebagai wadah pengembangan riset yang mandiri, inovatif dan solutif melalui pengembangan skill nyata yang bermanfaat bagi masyarakat.",
+    "misi": [
+      "Implementasi Project-Based Learning (PBL) yang Terintegrasi: Mengarahkan anggota untuk menghasilkan karya nyata, mulai dari penyusunan proposal, penelitian, hingga pembuatan produk inovatif dan penulisan KTI.",
+      "Literasi Sains melalui SCE: Menyelenggarakan Science Creation Event (SCE) sebagai sarana pameran hasil proyek anggota sekaligus upaya meningkatkan minat dan kesadaran sains di kalangan pelajar melalui lomba-lomba.",
+      "KIR Skill-Up & Visit: Meningkatkan wawasan anggota melalui workshop berkelanjutan dan kunjungan riset (study visit) ke instansi profesional atau universitas untuk mengenal ekosistem riset secara langsung.",
+      "Kemandirian Finansial Organisasi: Membangun sistem pendanaan mandiri melalui kewirausahaan kreatif untuk mendukung eksekusi proyek dan kegiatan anggota."
+    ]
+  },
+
+  "keanggotaan_syarat": "Anggota KIR adalah peserta didik MAN 2 Kota Bogor kelas X, XI, dan XII yang telah terdaftar sebagai anggota hingga dinyatakan demisioner.",
+
+  "pengurus_aktif": {
+    "pembina": "Tri Andika Julia Putra",
+    "pelatih": "Nurlita Anggraini",
+    "ketua": "Imam Ahmad Sujiwo",
+    "wakil_ketua": "Ghina Tsurayya",
+    "sekretaris": ["Naufal Aulia Rahman", "Lesya Nasyifa Adzra"],
+    "bendahara": ["Inayah Syauqi Kamila", "Nadira Hikmatul Ulya"]
+  },
+
+  "kepengurusan": "Kepengurusan dipimpin oleh Ketua Umum, dibantu Badan Pengurus Harian (BPH) serta divisi-divisi, dengan masa bakti selama 1 tahun. Kekuasaan tertinggi berada pada Musyawarah Pleno Anggota dan Musyawarah Istimewa Anggota.",
+
+  "lambang": "Lambang KIR adalah lingkaran berwarna biru bertuliskan 'Kelompok Ilmiah Remaja MAN 2 Kota Bogor', dikelilingi roda gir berwarna merah bata, dengan gambar labu erlenmeyer di tengahnya.",
+
+  "bendera": "Bendera KIR berbentuk persegi panjang dengan rasio tiga banding dua, warna dasar putih dengan lambang KIR di tengah.",
+
+  "pembina_info": "KIR dibimbing dan dibina oleh seorang Pembina utama, dapat dibantu Pembina Latih dan alumni yang kompeten di bidangnya.",
+
+  "dewan_penasehat": "KIR memiliki Dewan Penasehat (DP) yang terdiri dari alumni KIR yang dipercaya menjaga eksistensi organisasi.",
+
+  "rapat_dan_musyawarah": "Musyawarah Besar Anggota diadakan setahun sekali, sah jika dihadiri minimal tiga perempat anggota, membahas laporan pertanggungjawaban, pemilihan ketua dan BPH baru, serta penyusunan program kerja. Ada juga Rapat Bulanan antara Ketua dan BPH.",
+
+  "prestasi": [
+    {
+      "nama_lomba": "Agri-ET (Agricultural Engineering Technology) Competition",
+      "penyelenggara": "IPB University",
+      "tingkat": "nasional",
+      "tahun": "2025",
+      "hasil": "Juara 2"
+    },
+    {
+      "nama_lomba": "Kompetisi Riset dan Inovasi Siswa Indonesia",
+      "penyelenggara": "Abak Academy",
+      "tingkat": "nasional",
+      "tahun": "2025",
+      "hasil": "Juara 3 (Perunggu)"
+    },
+    {
+      "nama_lomba": "OMI (Olimpiade Madrasah Indonesia)",
+      "penyelenggara": "Kementerian Agama Republik Indonesia",
+      "tingkat": "kabupaten/kota",
+      "tahun": "2025",
+      "hasil": "Juara 2"
+    },
+    {
+      "nama_lomba": "Agri-ET (Agricultural Engineering Technology) Competition",
+      "penyelenggara": "IPB University",
+      "tingkat": "nasional",
+      "tahun": "2025",
+      "hasil": "Finalis"
+    },
+    {
+      "nama_lomba": "Kompetisi Riset dan Inovasi Siswa Indonesia",
+      "penyelenggara": "Abak Academy",
+      "tingkat": "nasional",
+      "tahun": "2025",
+      "hasil": "Finalis"
+    },
+    {
+      "nama_lomba": "Pesta Sains Nasional 2025",
+      "penyelenggara": "IPB University",
+      "tingkat": "nasional",
+      "tahun": "2025",
+      "hasil": "Semifinalis"
+    },
+    {
+      "nama_lomba": "OPSI (Olimpiade Penelitian Siswa Indonesia)",
+      "penyelenggara": "Pusat Prestasi Nasional",
+      "tingkat": "nasional",
+      "tahun": "2025",
+      "hasil": "Semifinalis"
+    }
+  ],
+
+  "riset_berjalan": {
+    "opsi": {
+      "nama_lomba": "OPSI (Olimpiade Penelitian Siswa Indonesia)",
+      "status": "proposal lolos, sedang fase penelitian",
+      "tahun": "2025",
+      "topik_penelitian": [
+        {
+          "ketua": "Nareswari Adkha Nashirah",
+          "judul": "Pengembangan Tablet Effervescent Berbasis Buah Bisbul (Diospyros blancoi) sebagai Minuman Fungsional untuk Pencegahan Hipertensi melalui Aktivitas Antioksidan"
+        },
+        {
+          "ketua": "Shifa Desiyanti",
+          "judul": "Optimasi komposisi sekam padi Oryza sativa dan kulit pisang Musa paradisiaca terhadap intensitas asap dan lama pembakaran briket organik"
+        },
+        {
+          "ketua": "Imam Ahmad Sujiwo",
+          "judul": "Smart-Vision Pedagogy: Implementasi Edge AI pada Kacamata Pintar untuk Meningkatkan Aksesibilitas dan Interaksi Guru Penyandang Disabilitas Netra dalam Pembelajaran Inklusif"
+        },
+        {
+          "ketua": "Keysha Marissa Widodo",
+          "judul": "Analisis Sentimen Pengguna Aplikasi Grab di Playstore menggunakan Studi Komparasi XGBoost, LightGBM, dan CatBoost Algorithms"
+        },
+        {
+          "ketua": "Rayyan Dhiya Respati",
+          "judul": "MORSAFE (Moringa-based Safe Water System): Sistem Filtrasi Air Portabel Bertenaga Surya Berbasis Biji Kelor (Moringa oleifera) dengan Monitoring Kekeruhan untuk Kondisi Darurat Bencana"
+        },
+        {
+          "ketua": "Tsamara Ufairah Azka Andriani",
+          "judul": "LIPSTICKY: Inovasi Pelarut Alami dari Tapai Ketan Putih Terfermentasi Berlebih sebagai Penghilang Noda Produk Bibir pada Dinding"
+        },
+        {
+          "ketua": "Hafizhah Yasmin Siregar",
+          "judul": "Purifikasi Kualitas Air Kotor melalui Metode CERDAS (Calcium-Eggshell and Rice Husk Charcoal Derived Adsorption System) dalam Meningkatkan Standar Air Domestik Masyarakat"
+        },
+        {
+          "ketua": "Ghina Tsurraya",
+          "judul": "Sintesis Membran Komposit Kitosan-Karbon Aktif dari Limbah Kulit Udang dan Cangkang Sawit untuk Filtrasi Mikroplastik Polyethylene Terephthalate"
+        },
+        {
+          "ketua": "Adithya Narraya Putra",
+          "judul": "Implementasi Fotodioda Sebagai Radiasi Ultraviolet"
+        },
+        {
+          "ketua": "Inayah Syauqi Kamila",
+          "judul": "Pemanfaatan Kandungan Albumin Ikan Gabus (Channa striata) dan Ekstrak Daun Binahong (Anredera cordifolia) sebagai Bahan Aktif Plester untuk Pengobatan Luka Bakar"
+        },
+        {
+          "ketua": "Safira Fitria Hamidah",
+          "judul": "Pengembangan Biokomposit Miselium Jamur Tiram (Pleurotus ostreatus) Berbasis Limbah Tongkol Jagung (Zea mays) sebagai Alternatif Biodegradable Pengganti Expanded Polystyrene (EPS)"
+        }
+      ]
+    },
+    "kreasi": {
+      "nama_lomba": "KREASI",
+      "status": "proposal lolos, sedang fase penelitian",
+      "tahun": "2025",
+      "topik_penelitian": []
+    }
+  },
+
+  "kegiatan_rutin": []
+}

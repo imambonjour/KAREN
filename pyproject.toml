@@ -1,0 +1,20 @@
+[project]
+name = "karen"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "ddgs>=9.14.4",
+    "dotenv>=0.9.9",
+    "google-genai>=2.11.0",
+    "huggingface-hub>=1.23.0",
+    "numpy>=2.5.1",
+    "piper>=0.15.1",
+    "piper-tts>=1.4.2",
+    "plotext>=5.3.2",
+    "pygame>=2.6.1",
+    "pywhispercpp>=1.5.0",
+    "speechrecognition>=3.17.0",
+    "supabase>=2.31.0",
+]
