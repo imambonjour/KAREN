@@ -18,8 +18,6 @@ import requests
 from piper.voice import PiperVoice
 from tools.registry import get_schemas, get_function_map
 
-from visualizer import VoiceScope
-
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -30,6 +28,7 @@ logging.basicConfig(
     datefmt="%H:%M:%S",
     handlers=[
         logging.FileHandler("voice_assistant.log", mode="a"),
+        logging.StreamHandler(sys.stdout),
     ],
 )
 log = logging.getLogger("voice_assistant_gemma4")
@@ -583,8 +582,8 @@ class VoiceAssistantPipeline:
     def record_audio(self, output_path, kb_input):
         log.info("Recording started, listening for speech...")
 
-        cmd = ["pw-record", "--channels=1", "--rate", str(SAMPLE_RATE), "--format=s16", "-a", "-"]
-        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+        cmd = ["pw-record", "--channels=1", "--rate", str(SAMPLE_RATE), "--format=s16", "-"]
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         self.vad_iterator.reset_states()
 
         bytes_per_window = VAD_WINDOW_SAMPLES * 2
@@ -624,6 +623,9 @@ class VoiceAssistantPipeline:
         finally:
             proc.terminate()
             proc.wait()
+            stderr_output = proc.stderr.read().decode(errors="replace") if proc.stderr else ""
+            if stderr_output:
+                log.warning(f"pw-record stderr: {stderr_output.strip()}")
 
         if quit_requested:
             return "quit"
@@ -694,8 +696,6 @@ def _print_loading_log(step, total, message):
 def main():
     pipeline = VoiceAssistantPipeline()
     kb = KeyboardInput()
-    scope = VoiceScope()
-    scope.start()
 
     try:
         _print_loading_log(1, 3, "Starting Gemma4 server (LLM + ASR)...")
@@ -711,7 +711,6 @@ def main():
         output_audio = "output_response.wav"
 
         kb.enable_raw()
-        scope.set_flat()
 
         trigger_record = False
         while True:
@@ -728,24 +727,18 @@ def main():
                 pipeline.reset_history()
                 continue
             if char_lower == "r":
-                scope.set_listening()
                 record_result = pipeline.record_audio(input_audio, kb)
                 if record_result == "quit":
                     break
                 if record_result != "ok":
-                    scope.set_flat()
                     continue
 
-                scope.set_thinking()
                 success = pipeline.run_pipeline(input_audio, output_audio)
                 if not success:
-                    scope.set_flat()
                     time.sleep(1)
                     continue
 
-                scope.set_speaking(output_audio)
                 action = pipeline.play_audio_and_listen(output_audio, kb)
-                scope.set_flat()
                 if action == "q":
                     break
                 if action == "r":
@@ -756,7 +749,6 @@ def main():
     except Exception as e:
         log.error(f"An error occurred: {e}", exc_info=True)
     finally:
-        scope.stop()
         kb.disable_raw()
         pipeline.cleanup()
 

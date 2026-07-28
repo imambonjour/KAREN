@@ -378,8 +378,8 @@ class VoiceAssistantPipeline:
     def record_audio(self, output_path, kb_input):
         log.info("Recording started, listening for speech...")
 
-        cmd = ["pw-record", "--channels=1", "--rate", str(SAMPLE_RATE), "--format=s16", "-a", "-"]
-        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+        cmd = ["pw-record", "--channels=1", "--rate", str(SAMPLE_RATE), "--format=s16", "-"]
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         self.vad_iterator.reset_states()
 
         bytes_per_window = VAD_WINDOW_SAMPLES * 2
@@ -419,6 +419,9 @@ class VoiceAssistantPipeline:
         finally:
             proc.terminate()
             proc.wait()
+            stderr_output = proc.stderr.read().decode(errors="replace") if proc.stderr else ""
+            if stderr_output:
+                log.warning(f"pw-record stderr: {stderr_output.strip()}")
 
         if quit_requested:
             return "quit"

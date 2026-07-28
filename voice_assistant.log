@@ -18915,3 +18915,210 @@ startpage.com. 2622 IN AAAA 64:ff9b::433f:34e9
 06:02:33 [INFO] Playing response audio...
 06:04:14 [INFO] Terminating Gemma4 llama-server...
 06:04:14 [INFO] Gemma4 llama-server stopped.
+18:56:05 [INFO] Loading [1/3] Starting Gemma4 server (LLM + ASR)...
+18:56:05 [INFO] Starting Gemma4 llama-server: ./llama/llama-server -m models/Gemma4/gemma-4-E2B-it-UD-Q4_K_XL.gguf --mmproj models/Gemma4/mmproj-F16.gguf --port 8080 --media-path . --mlock --no-mmap -t 11 -c 8192 --jinja --no-webui
+18:56:05 [INFO] Waiting for Gemma4 llama-server on port 8080...
+18:56:05 [DEBUG] Starting new HTTP connection (1): localhost:8080
+18:56:05 [DEBUG] http://localhost:8080 "GET /health HTTP/1.1" 200 15
+18:56:05 [INFO] Gemma4 llama-server is ready.
+18:56:05 [INFO] Loading [2/3] Loading TTS model...
+18:56:05 [INFO] Loading Piper TTS voice model...
+18:56:05 [DEBUG] Guessing voice config path: models/piper/id_ID-news_tts-medium.onnx.json
+18:56:06 [INFO] Piper TTS loaded successfully.
+18:56:06 [INFO] Loading [3/3] Loading VAD model...
+18:56:06 [INFO] Loading Silero VAD model...
+18:56:06 [INFO] Silero VAD loaded successfully.
+18:56:36 [INFO] Recording started, listening for speech...
+18:56:36 [INFO] No speech detected.
+19:00:25 [INFO] Terminating Gemma4 llama-server...
+19:00:25 [INFO] Gemma4 llama-server stopped.
+19:00:40 [INFO] Loading [1/3] Starting Gemma4 server (LLM + ASR)...
+19:00:40 [INFO] Starting Gemma4 llama-server: ./llama/llama-server -m models/Gemma4/gemma-4-E2B-it-UD-Q4_K_XL.gguf --mmproj models/Gemma4/mmproj-F16.gguf --port 8080 --media-path . --mlock --no-mmap -t 11 -c 8192 --jinja --no-webui
+19:00:40 [INFO] Waiting for Gemma4 llama-server on port 8080...
+19:00:40 [DEBUG] Starting new HTTP connection (1): localhost:8080
+19:00:40 [DEBUG] http://localhost:8080 "GET /health HTTP/1.1" 200 15
+19:00:40 [INFO] Gemma4 llama-server is ready.
+19:00:40 [INFO] Loading [2/3] Loading TTS model...
+19:00:40 [INFO] Loading Piper TTS voice model...
+19:00:40 [DEBUG] Guessing voice config path: models/piper/id_ID-news_tts-medium.onnx.json
+19:00:40 [INFO] Piper TTS loaded successfully.
+19:00:40 [INFO] Loading [3/3] Loading VAD model...
+19:00:40 [INFO] Loading Silero VAD model...
+19:00:40 [INFO] Silero VAD loaded successfully.
+19:00:46 [INFO] Recording started, listening for speech...
+19:00:46 [INFO] No speech detected.
+19:00:48 [INFO] Recording started, listening for speech...
+19:00:48 [INFO] No speech detected.
+19:00:49 [INFO] Recording started, listening for speech...
+19:00:49 [INFO] No speech detected.
+19:00:50 [INFO] Recording started, listening for speech...
+19:00:50 [INFO] No speech detected.
+19:05:37 [INFO] Terminating Gemma4 llama-server...
+19:05:37 [INFO] Gemma4 llama-server stopped.
+19:05:51 [INFO] Loading [1/3] Starting Gemma4 server (LLM + ASR)...
+19:05:51 [INFO] Starting Gemma4 llama-server: ./llama/llama-server -m models/Gemma4/gemma-4-E2B-it-UD-Q4_K_XL.gguf --mmproj models/Gemma4/mmproj-F16.gguf --port 8080 --media-path . --mlock --no-mmap -t 11 -c 8192 --jinja --no-webui
+19:05:51 [INFO] Waiting for Gemma4 llama-server on port 8080...
+19:05:51 [DEBUG] Starting new HTTP connection (1): localhost:8080
+19:05:51 [DEBUG] http://localhost:8080 "GET /health HTTP/1.1" 200 15
+19:05:51 [INFO] Gemma4 llama-server is ready.
+19:05:51 [INFO] Loading [2/3] Loading TTS model...
+19:05:51 [INFO] Loading Piper TTS voice model...
+19:05:51 [DEBUG] Guessing voice config path: models/piper/id_ID-news_tts-medium.onnx.json
+19:05:51 [INFO] Piper TTS loaded successfully.
+19:05:51 [INFO] Loading [3/3] Loading VAD model...
+19:05:51 [INFO] Loading Silero VAD model...
+19:05:51 [INFO] Silero VAD loaded successfully.
+19:05:53 [INFO] Recording started, listening for speech...
+19:05:53 [WARNING] pw-record stderr: -
+stream node 68 error: no target node available
+remote error: id=2 seq:7 res:-2 (No such file or directory): no target node available
+19:05:53 [INFO] No speech detected.
+19:05:55 [INFO] Recording started, listening for speech...
+19:05:55 [WARNING] pw-record stderr: -
+stream node 68 error: no target node available
+remote error: id=2 seq:7 res:-2 (No such file or directory): no target node available
+19:05:55 [INFO] No speech detected.
+19:05:56 [INFO] Recording started, listening for speech...
+19:05:56 [WARNING] pw-record stderr: -
+stream node 68 error: no target node available
+remote error: id=2 seq:7 res:-2 (No such file or directory): no target node available
+19:05:56 [INFO] No speech detected.
+19:07:02 [INFO] Terminating Gemma4 llama-server...
+19:07:02 [INFO] Gemma4 llama-server stopped.
+19:07:14 [INFO] Loading [1/3] Starting Gemma4 server (LLM + ASR)...
+19:07:14 [INFO] Starting Gemma4 llama-server: ./llama/llama-server -m models/Gemma4/gemma-4-E2B-it-UD-Q4_K_XL.gguf --mmproj models/Gemma4/mmproj-F16.gguf --port 8080 --media-path . --mlock --no-mmap -t 11 -c 8192 --jinja --no-webui
+19:07:14 [INFO] Waiting for Gemma4 llama-server on port 8080...
+19:07:14 [DEBUG] Starting new HTTP connection (1): localhost:8080
+19:07:14 [DEBUG] http://localhost:8080 "GET /health HTTP/1.1" 200 15
+19:07:14 [INFO] Gemma4 llama-server is ready.
+19:07:14 [INFO] Loading [2/3] Loading TTS model...
+19:07:14 [INFO] Loading Piper TTS voice model...
+19:07:14 [DEBUG] Guessing voice config path: models/piper/id_ID-news_tts-medium.onnx.json
+19:07:15 [INFO] Piper TTS loaded successfully.
+19:07:15 [INFO] Loading [3/3] Loading VAD model...
+19:07:15 [INFO] Loading Silero VAD model...
+19:07:15 [INFO] Silero VAD loaded successfully.
+19:08:38 [INFO] Recording started, listening for speech...
+19:08:38 [INFO] Speech detected.
+19:08:39 [INFO] Speech ended. Submitting...
+19:08:39 [WARNING] pw-record stderr: -
+19:08:39 [INFO] Captured speech successfully.
+19:08:39 [INFO] Running Gemma4 native ASR on: input_record.wav
+19:08:39 [DEBUG] Starting new HTTP connection (1): localhost:8080
+19:08:41 [DEBUG] http://localhost:8080 "POST /v1/chat/completions HTTP/1.1" 200 638
+19:08:41 [INFO] ASR transcription [1.29s]: "Halo."
+19:08:41 [INFO] Sending prompt to Gemma4 via llama-server...
+19:08:41 [INFO] Chat history: 0/10 turns
+19:08:41 [DEBUG] Starting new HTTP connection (1): localhost:8080
+19:08:49 [DEBUG] http://localhost:8080 "POST /v1/chat/completions HTTP/1.1" 200 711
+19:08:49 [INFO] LLM response (Raw)  [8.03s]: "Halo. Ada yang bisa saya bantu? Saya KAREN, asisten suara AI pintar Anda."
+19:08:49 [INFO] LLM response (Clean) [8.03s]: "Halo. Ada yang bisa saya bantu? Saya KAREN, asisten suara AI pintar Anda."
+19:08:49 [INFO] History updated: 1/10 turns stored.
+19:08:49 [INFO] Synthesizing speech via Piper TTS to: output_response.wav
+19:08:49 [DEBUG] text=Halo. Ada yang bisa saya bantu? Saya KAREN, asisten suara AI pintar Anda., phonemes=[['h', 'ˈ', 'a', 'l', 'o', '.'], ['ˈ', 'a', 'd', 'a', ' ', 'j', 'a', 'ŋ', ' ', 'b', 'ˈ', 'i', 's', 'a', ' ', 's', 'ˈ', 'a', 'j', 'a', ' ', 'b', 'ˈ', 'a', 'n', 't', 'u', '?'], ['s', 'ˈ', 'a', 'j', 'a', ' ', 'k', 'ˈ', 'a', 'r', 'ə', 'n', ',', ' ', 'a', 's', 'ˈ', 'i', 's', 't', 'ə', 'n', ' ', 's', 'u', 'ˈ', 'a', 'r', 'a', ' ', 'ˌ', 'a', 'ˈ', 'i', ' ', 'p', 'ˈ', 'i', 'n', 't', 'a', 'r', ' ', 'ˈ', 'a', 'n', 'd', 'a', '.']]
+19:08:49 [INFO] TTS synthesis complete [0.31s].
+19:08:49 [INFO] Pipeline executed successfully. Total: 9.63s (ASR: 1.29s, LLM: 8.03s, TTS: 0.31s)
+19:08:49 [INFO] Playing response audio...
+19:08:57 [INFO] Conversation history cleared.
+19:08:57 [INFO] Conversation history cleared.
+19:08:57 [INFO] Conversation history cleared.
+19:08:58 [INFO] Conversation history cleared.
+19:08:58 [INFO] Conversation history cleared.
+19:08:58 [INFO] Conversation history cleared.
+19:08:59 [INFO] Conversation history cleared.
+19:08:59 [INFO] Conversation history cleared.
+19:08:59 [INFO] Conversation history cleared.
+19:08:59 [INFO] Conversation history cleared.
+19:08:59 [INFO] Conversation history cleared.
+19:08:59 [INFO] Conversation history cleared.
+19:08:59 [INFO] Conversation history cleared.
+19:08:59 [INFO] Conversation history cleared.
+19:08:59 [INFO] Conversation history cleared.
+19:08:59 [INFO] Conversation history cleared.
+19:09:00 [INFO] Conversation history cleared.
+19:09:00 [INFO] Conversation history cleared.
+19:09:00 [INFO] Conversation history cleared.
+19:09:00 [INFO] Conversation history cleared.
+19:09:00 [INFO] Conversation history cleared.
+19:09:00 [INFO] Conversation history cleared.
+19:09:00 [INFO] Conversation history cleared.
+19:09:00 [INFO] Conversation history cleared.
+19:09:00 [INFO] Conversation history cleared.
+19:09:00 [INFO] Conversation history cleared.
+19:09:01 [INFO] Conversation history cleared.
+19:09:01 [INFO] Conversation history cleared.
+19:09:01 [INFO] Conversation history cleared.
+19:09:01 [INFO] Conversation history cleared.
+19:09:01 [INFO] Conversation history cleared.
+19:09:01 [INFO] Conversation history cleared.
+19:09:01 [INFO] Conversation history cleared.
+19:09:01 [INFO] Conversation history cleared.
+19:09:01 [INFO] Conversation history cleared.
+19:09:01 [INFO] Conversation history cleared.
+19:09:02 [INFO] Conversation history cleared.
+19:09:03 [INFO] Conversation history cleared.
+19:09:03 [INFO] Conversation history cleared.
+19:09:03 [INFO] Conversation history cleared.
+19:09:03 [INFO] Conversation history cleared.
+19:09:03 [INFO] Conversation history cleared.
+19:09:03 [INFO] Conversation history cleared.
+19:09:03 [INFO] Conversation history cleared.
+19:09:03 [INFO] Conversation history cleared.
+19:09:04 [INFO] Conversation history cleared.
+19:09:04 [INFO] Conversation history cleared.
+19:09:04 [INFO] Conversation history cleared.
+19:09:04 [INFO] Conversation history cleared.
+19:09:04 [INFO] Conversation history cleared.
+19:09:04 [INFO] Conversation history cleared.
+19:09:04 [INFO] Conversation history cleared.
+19:09:04 [INFO] Conversation history cleared.
+19:09:04 [INFO] Conversation history cleared.
+19:09:04 [INFO] Conversation history cleared.
+19:09:05 [INFO] Conversation history cleared.
+19:09:05 [INFO] Conversation history cleared.
+19:09:05 [INFO] Conversation history cleared.
+19:09:05 [INFO] Conversation history cleared.
+19:09:05 [INFO] Conversation history cleared.
+19:09:05 [INFO] Conversation history cleared.
+19:09:05 [INFO] Conversation history cleared.
+19:09:05 [INFO] Conversation history cleared.
+19:09:05 [INFO] Conversation history cleared.
+19:09:05 [INFO] Conversation history cleared.
+19:09:06 [INFO] Conversation history cleared.
+19:09:06 [INFO] Conversation history cleared.
+19:09:06 [INFO] Conversation history cleared.
+19:09:06 [INFO] Conversation history cleared.
+19:09:06 [INFO] Conversation history cleared.
+19:09:06 [INFO] Conversation history cleared.
+19:09:06 [INFO] Conversation history cleared.
+19:09:06 [INFO] Conversation history cleared.
+19:09:06 [INFO] Conversation history cleared.
+19:09:07 [INFO] Conversation history cleared.
+19:09:07 [INFO] Conversation history cleared.
+19:09:07 [INFO] Conversation history cleared.
+19:09:07 [INFO] Conversation history cleared.
+19:09:07 [INFO] Conversation history cleared.
+19:09:07 [INFO] Conversation history cleared.
+19:09:07 [INFO] Conversation history cleared.
+19:09:07 [INFO] Conversation history cleared.
+19:09:07 [INFO] Conversation history cleared.
+19:09:07 [INFO] Conversation history cleared.
+19:09:08 [INFO] Conversation history cleared.
+19:09:08 [INFO] Conversation history cleared.
+19:09:08 [INFO] Conversation history cleared.
+19:09:08 [INFO] Conversation history cleared.
+19:09:08 [INFO] Conversation history cleared.
+19:09:08 [INFO] Conversation history cleared.
+19:09:08 [INFO] Conversation history cleared.
+19:09:08 [INFO] Conversation history cleared.
+19:09:08 [INFO] Conversation history cleared.
+19:09:08 [INFO] Conversation history cleared.
+19:09:09 [INFO] Conversation history cleared.
+19:09:09 [INFO] Conversation history cleared.
+19:09:10 [INFO] Conversation history cleared.
+19:09:10 [INFO] Conversation history cleared.
+19:09:10 [INFO] Conversation history cleared.
+19:09:10 [INFO] Conversation history cleared.
+19:09:10 [INFO] Conversation history cleared.
+19:09:11 [INFO] Terminating Gemma4 llama-server...
+19:09:11 [INFO] Gemma4 llama-server stopped.
