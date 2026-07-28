@@ -1,0 +1,15 @@
+LLAMA_SERVER_PATH = "./llama/llama-server"
+GEMMA4_MODEL_PATH = "models/Gemma4/gemma-4-E2B-it-UD-Q4_K_XL.gguf"
+GEMMA4_MMPROJ_PATH = "models/Gemma4/mmproj-F16.gguf"
+GEMMA4_MTP_PATH = "models/Gemma4/mtp-gemma-4-E2B-it.gguf"
+TTS_MODEL_PATH = "models/piper/id_ID-news_tts-medium.onnx"
+VAD_MODEL_PATH = "models/silero_vad.onnx"
+GEMMA4_PORT = 8080
+GEMMA4_CHAT_URL = f"http://localhost:{GEMMA4_PORT}/v1/chat/completions"
+SAMPLE_RATE = 16000
+VAD_WINDOW_SAMPLES = 512
+VAD_THRESHOLD = 0.5
+VAD_MIN_SILENCE_MS = 500
+VAD_SPEECH_PAD_MS = 30
+VAD_MIN_SPEECH_MS = 250
+MAX_HISTORY_TURNS = 10

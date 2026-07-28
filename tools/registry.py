@@ -1,6 +1,6 @@
-from tools import database_search, web_search, organisasi_search
+from tools import web_search, organisasi_search
 
-ALL_MODULES = [database_search, web_search, organisasi_search]
+ALL_MODULES = [web_search, organisasi_search]
 
 
 def get_all_tools():

@@ -18,6 +18,7 @@ import requests
 from piper.voice import PiperVoice
 from tools.registry import get_schemas, get_function_map
 
+import config
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -33,22 +34,21 @@ logging.basicConfig(
 )
 log = logging.getLogger("voice_assistant_gemma4")
 
-LLAMA_SERVER_PATH = "./llama/llama-server"
-GEMMA4_MODEL_PATH = "models/Gemma4/gemma-4-E2B-it-UD-Q4_K_XL.gguf"
-GEMMA4_MMPROJ_PATH = "models/Gemma4/mmproj-F16.gguf"
-GEMMA4_MTP_PATH = "models/Gemma4/mtp-gemma-4-E2B-it.gguf"
-TTS_MODEL_PATH = "models/piper/id_ID-news_tts-medium.onnx"
-VAD_MODEL_PATH = "models/silero_vad.onnx"
-GEMMA4_PORT = 8080
-GEMMA4_CHAT_URL = f"http://localhost:{GEMMA4_PORT}/v1/chat/completions"
-SAMPLE_RATE = 16000
-VAD_WINDOW_SAMPLES = 512
-VAD_THRESHOLD = 0.5
-VAD_MIN_SILENCE_MS = 500
-VAD_SPEECH_PAD_MS = 30
-VAD_MIN_SPEECH_MS = 250
-
-MAX_HISTORY_TURNS = 10  # jumlah pasang (user+assistant) yang disimpan dalam satu sesi
+LLAMA_SERVER_PATH = config.LLAMA_SERVER_PATH
+GEMMA4_MODEL_PATH = config.GEMMA4_MODEL_PATH
+GEMMA4_MMPROJ_PATH = config.GEMMA4_MMPROJ_PATH
+GEMMA4_MTP_PATH = config.GEMMA4_MTP_PATH
+TTS_MODEL_PATH = config.TTS_MODEL_PATH
+VAD_MODEL_PATH = config.VAD_MODEL_PATH
+GEMMA4_PORT = config.GEMMA4_PORT
+GEMMA4_CHAT_URL = config.GEMMA4_CHAT_URL
+SAMPLE_RATE = config.SAMPLE_RATE
+VAD_WINDOW_SAMPLES = config.VAD_WINDOW_SAMPLES
+VAD_THRESHOLD = config.VAD_THRESHOLD
+VAD_MIN_SILENCE_MS = config.VAD_MIN_SILENCE_MS
+VAD_SPEECH_PAD_MS = config.VAD_SPEECH_PAD_MS
+VAD_MIN_SPEECH_MS = config.VAD_MIN_SPEECH_MS
+MAX_HISTORY_TURNS = config.MAX_HISTORY_TURNS
 
 # ---------------------------------------------------------------------------
 # Tools (diload dari folder tools/ via registry)
@@ -713,6 +713,7 @@ def main():
         kb.enable_raw()
 
         trigger_record = False
+        last_c_time = 0.0
         while True:
             if trigger_record:
                 char_lower = "r"
@@ -724,7 +725,10 @@ def main():
             if char_lower == "q":
                 break
             if char_lower == "c":
-                pipeline.reset_history()
+                now = time.monotonic()
+                if now - last_c_time > 0.5:
+                    last_c_time = now
+                    pipeline.reset_history()
                 continue
             if char_lower == "r":
                 record_result = pipeline.record_audio(input_audio, kb)
