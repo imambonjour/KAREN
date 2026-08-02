@@ -19122,3 +19122,132 @@ remote error: id=2 seq:7 res:-2 (No such file or directory): no target node avai
 19:09:10 [INFO] Conversation history cleared.
 19:09:11 [INFO] Terminating Gemma4 llama-server...
 19:09:11 [INFO] Gemma4 llama-server stopped.
+21:08:01 [INFO] Loading [1/3] Starting Gemma4 server + MCP tools...
+21:08:01 [INFO] Starting llama-server: ./llama/llama-server -m models/Gemma4/gemma-4-E2B-it-UD-Q4_K_XL.gguf --mmproj models/Gemma4/mmproj-F16.gguf --port 8080 --media-path . --mlock --no-mmap -t 11 -c 8192 --jinja --no-webui
+21:08:01 [INFO] Waiting for llama-server on port 8080...
+21:08:01 [DEBUG] Starting new HTTP connection (1): localhost:8080
+21:08:01 [DEBUG] http://localhost:8080 "GET /health HTTP/1.1" 200 15
+21:08:01 [INFO] llama-server is ready.
+21:08:01 [DEBUG] Using selector: EpollSelector
+21:08:01 [INFO] MCP server 'karen-web' started — 2 tool(s): ['cari_web', 'cek_cuaca']
+21:08:02 [INFO] MCP server 'karen-info' started — 2 tool(s): ['cari_info_organisasi', 'get_semua_info_organisasi']
+21:08:02 [INFO] MCP server 'karen-vision' started — 2 tool(s): ['cek_sekitar', 'baca_teks']
+21:08:02 [INFO] MCPHost ready — 6 tools across 3 server(s)
+21:08:02 [INFO] Tools available: ['cari_web', 'cek_cuaca', 'cari_info_organisasi', 'get_semua_info_organisasi', 'cek_sekitar', 'baca_teks']
+21:08:02 [INFO] Loading [2/3] Loading TTS model...
+21:08:02 [INFO] Loading Piper TTS voice model...
+21:08:02 [DEBUG] Guessing voice config path: models/piper/id_ID-news_tts-medium.onnx.json
+21:08:03 [INFO] Piper TTS loaded successfully.
+21:08:03 [INFO] Loading [3/3] Loading VAD model...
+21:08:03 [INFO] Loading Silero VAD model...
+21:08:03 [INFO] Silero VAD loaded successfully.
+21:08:03 [INFO] KAREN ready. Press 'r' to record, 'c' to clear history, 'q' to quit.
+21:11:40 [INFO] Recording started, listening for speech...
+21:11:41 [INFO] Speech detected.
+21:11:41 [INFO] Speech ended. Submitting...
+21:11:41 [WARNING] pw-record stderr: -
+21:11:41 [INFO] Speech too short, ignored.
+21:11:43 [INFO] Recording started, listening for speech...
+21:11:44 [INFO] Speech detected.
+21:11:45 [INFO] Speech ended. Submitting...
+21:11:45 [WARNING] pw-record stderr: -
+21:11:45 [INFO] Captured speech successfully.
+21:11:45 [INFO] Running Gemma4 native ASR on: input_record.wav
+21:11:45 [DEBUG] Starting new HTTP connection (1): localhost:8080
+21:11:46 [DEBUG] http://localhost:8080 "POST /v1/chat/completions HTTP/1.1" 200 642
+21:11:46 [INFO] ASR [1.06s]: "Halo."
+21:11:46 [INFO] Sending prompt to Gemma4...
+21:11:46 [INFO] Chat history: 0/10 turns
+21:11:46 [DEBUG] Starting new HTTP connection (1): localhost:8080
+21:11:53 [DEBUG] http://localhost:8080 "POST /v1/chat/completions HTTP/1.1" 200 723
+21:11:53 [INFO] LLM response [7.39s]: "Halo. Ada yang bisa saya bantu? Saya KAREN, asisten suara AI pintar Anda."
+21:11:53 [INFO] Synthesizing speech to: output_response.wav
+21:11:53 [DEBUG] text=Halo. Ada yang bisa saya bantu? Saya KAREN, asisten suara AI pintar Anda., phonemes=[['h', 'ˈ', 'a', 'l', 'o', '.'], ['ˈ', 'a', 'd', 'a', ' ', 'j', 'a', 'ŋ', ' ', 'b', 'ˈ', 'i', 's', 'a', ' ', 's', 'ˈ', 'a', 'j', 'a', ' ', 'b', 'ˈ', 'a', 'n', 't', 'u', '?'], ['s', 'ˈ', 'a', 'j', 'a', ' ', 'k', 'ˈ', 'a', 'r', 'ə', 'n', ',', ' ', 'a', 's', 'ˈ', 'i', 's', 't', 'ə', 'n', ' ', 's', 'u', 'ˈ', 'a', 'r', 'a', ' ', 'ˌ', 'a', 'ˈ', 'i', ' ', 'p', 'ˈ', 'i', 'n', 't', 'a', 'r', ' ', 'ˈ', 'a', 'n', 'd', 'a', '.']]
+21:11:54 [INFO] TTS synthesis complete [0.33s].
+21:11:54 [INFO] Playing response audio...
+21:12:06 [INFO] Recording started, listening for speech...
+21:12:06 [INFO] Speech detected.
+21:12:08 [INFO] Speech ended. Submitting...
+21:12:08 [WARNING] pw-record stderr: -
+21:12:08 [INFO] Captured speech successfully.
+21:12:08 [INFO] Running Gemma4 native ASR on: input_record.wav
+21:12:08 [DEBUG] Starting new HTTP connection (1): localhost:8080
+21:12:09 [DEBUG] http://localhost:8080 "POST /v1/chat/completions HTTP/1.1" 200 654
+21:12:09 [INFO] ASR [1.30s]: "Periksa sekitar"
+21:12:09 [INFO] Sending prompt to Gemma4...
+21:12:09 [INFO] Chat history: 1/10 turns
+21:12:09 [DEBUG] Starting new HTTP connection (1): localhost:8080
+21:12:10 [DEBUG] http://localhost:8080 "POST /v1/chat/completions HTTP/1.1" 200 784
+21:12:10 [INFO] LLM requested 1 tool call(s).
+21:12:10 [INFO] [TOOL CALL] cek_sekitar({})
+21:12:34 [DEBUG] Starting new HTTP connection (1): localhost:8080
+21:12:39 [DEBUG] http://localhost:8080 "POST /v1/chat/completions HTTP/1.1" 200 784
+21:12:39 [INFO] LLM response [29.60s]: "Deskripsi sekitar menunjukkan bahwa gambar yang Anda berikan didominasi kegelapan dengan siluet samar seseorang dan tekstur dinding."
+21:12:39 [INFO] Synthesizing speech to: output_response.wav
+21:12:39 [DEBUG] text=Deskripsi sekitar menunjukkan bahwa gambar yang Anda berikan didominasi kegelapan dengan siluet samar seseorang dan tekstur dinding., phonemes=[['d', 'ə', 's', 'k', 'r', 'ˈ', 'i', 'p', 's', 'i', ' ', 's', 'ə', 'k', 'ˈ', 'i', 't', 'a', 'r', ' ', 'm', 'ə', 'n', 'u', 'n', 'd', 'ʒ', 'ˈ', 'u', 'k', 'k', 'a', 'n', ' ', 'b', 'ˌ', 'a', 'h', 'w', 'a', ' ', 'ɡ', 'ˈ', 'a', 'm', 'b', 'a', 'r', ' ', 'j', 'a', 'ŋ', ' ', 'ˈ', 'a', 'n', 'd', 'a', ' ', 'b', 'ə', 'r', 'ˈ', 'i', 'k', 'a', 'n', ' ', 'd', 'ˌ', 'i', 'd', 'o', 'm', 'i', 'n', 'ˈ', 'a', 's', 'i', ' ', 'k', 'ə', 'ɡ', 'ə', 'l', 'ˈ', 'a', 'p', 'a', 'n', ' ', 'd', 'ˈ', 'ɛ', 'ŋ', 'a', 'n', ' ', 's', 'i', 'l', 'ˈ', 'u', 'ə', 't', ' ', 's', 'ˈ', 'a', 'm', 'a', 'r', ' ', 's', 'ə', 's', 'ə', 'ˈ', 'ɔ', 'r', 'a', 'ŋ', ' ', 'd', 'a', 'n', ' ', 't', 'ˈ', 'ɛ', 'k', 's', 't', 'u', 'r', ' ', 'd', 'ˈ', 'i', 'n', 'd', 'i', 'ŋ', '.']]
+21:12:39 [INFO] TTS synthesis complete [0.40s].
+21:12:39 [INFO] Playing response audio...
+21:13:06 [INFO] Recording started, listening for speech...
+21:13:08 [INFO] Speech detected.
+21:13:09 [INFO] Speech ended. Submitting...
+21:13:09 [WARNING] pw-record stderr: -
+21:13:09 [INFO] Captured speech successfully.
+21:13:09 [INFO] Running Gemma4 native ASR on: input_record.wav
+21:13:09 [DEBUG] Starting new HTTP connection (1): localhost:8080
+21:13:11 [DEBUG] http://localhost:8080 "POST /v1/chat/completions HTTP/1.1" 200 656
+21:13:11 [INFO] ASR [1.45s]: "apa yang kamu lihat"
+21:13:11 [INFO] Sending prompt to Gemma4...
+21:13:11 [INFO] Chat history: 2/10 turns
+21:13:11 [DEBUG] Starting new HTTP connection (1): localhost:8080
+21:13:17 [DEBUG] http://localhost:8080 "POST /v1/chat/completions HTTP/1.1" 200 732
+21:13:17 [INFO] LLM response [6.03s]: "Mohon berikan gambar agar saya bisa melihat dan mendeskripsikannya untuk Anda."
+21:13:17 [INFO] Synthesizing speech to: output_response.wav
+21:13:17 [DEBUG] text=Mohon berikan gambar agar saya bisa melihat dan mendeskripsikannya untuk Anda., phonemes=[['m', 'ˈ', 'o', 'h', 'o', 'n', ' ', 'b', 'ə', 'r', 'ˈ', 'i', 'k', 'a', 'n', ' ', 'ɡ', 'ˈ', 'a', 'm', 'b', 'a', 'r', ' ', 'ˈ', 'a', 'ɡ', 'a', 'r', ' ', 's', 'ˈ', 'a', 'j', 'a', ' ', 'b', 'ˈ', 'i', 's', 'a', ' ', 'm', 'ə', 'l', 'ˈ', 'i', 'h', 'a', 't', ' ', 'd', 'a', 'n', ' ', 'm', 'ə', 'n', 'd', 'ˌ', 'ɛ', 's', 'k', 'r', 'i', 'p', 's', 'i', 'k', 'ˈ', 'a', 'n', 'ɲ', 'a', ' ', 'ˌ', 'u', 'n', 't', 'u', 'k', ' ', 'ˈ', 'a', 'n', 'd', 'a', '.']]
+21:13:17 [INFO] TTS synthesis complete [0.25s].
+21:13:17 [INFO] Playing response audio...
+21:13:22 [INFO] Recording started, listening for speech...
+21:13:22 [INFO] Speech detected.
+21:13:23 [INFO] Speech ended. Submitting...
+21:13:23 [WARNING] pw-record stderr: -
+21:13:23 [INFO] Speech too short, ignored.
+21:13:25 [INFO] Recording started, listening for speech...
+21:13:25 [INFO] Speech detected.
+21:13:27 [INFO] Speech ended. Submitting...
+21:13:27 [WARNING] pw-record stderr: -
+21:13:27 [INFO] Captured speech successfully.
+21:13:27 [INFO] Running Gemma4 native ASR on: input_record.wav
+21:13:27 [DEBUG] Starting new HTTP connection (1): localhost:8080
+21:13:29 [DEBUG] http://localhost:8080 "POST /v1/chat/completions HTTP/1.1" 200 650
+21:13:29 [INFO] ASR [1.36s]: "Periksa sekitar"
+21:13:29 [INFO] Sending prompt to Gemma4...
+21:13:29 [INFO] Chat history: 3/10 turns
+21:13:29 [DEBUG] Starting new HTTP connection (1): localhost:8080
+21:13:31 [DEBUG] http://localhost:8080 "POST /v1/chat/completions HTTP/1.1" 200 783
+21:13:31 [INFO] LLM response [1.98s]: "Deskripsi sekitar menunjukkan bahwa gambar yang Anda berikan didominasi kegelapan dengan siluet samar seseorang dan tekstur dinding."
+21:13:31 [INFO] Synthesizing speech to: output_response.wav
+21:13:31 [DEBUG] text=Deskripsi sekitar menunjukkan bahwa gambar yang Anda berikan didominasi kegelapan dengan siluet samar seseorang dan tekstur dinding., phonemes=[['d', 'ə', 's', 'k', 'r', 'ˈ', 'i', 'p', 's', 'i', ' ', 's', 'ə', 'k', 'ˈ', 'i', 't', 'a', 'r', ' ', 'm', 'ə', 'n', 'u', 'n', 'd', 'ʒ', 'ˈ', 'u', 'k', 'k', 'a', 'n', ' ', 'b', 'ˌ', 'a', 'h', 'w', 'a', ' ', 'ɡ', 'ˈ', 'a', 'm', 'b', 'a', 'r', ' ', 'j', 'a', 'ŋ', ' ', 'ˈ', 'a', 'n', 'd', 'a', ' ', 'b', 'ə', 'r', 'ˈ', 'i', 'k', 'a', 'n', ' ', 'd', 'ˌ', 'i', 'd', 'o', 'm', 'i', 'n', 'ˈ', 'a', 's', 'i', ' ', 'k', 'ə', 'ɡ', 'ə', 'l', 'ˈ', 'a', 'p', 'a', 'n', ' ', 'd', 'ˈ', 'ɛ', 'ŋ', 'a', 'n', ' ', 's', 'i', 'l', 'ˈ', 'u', 'ə', 't', ' ', 's', 'ˈ', 'a', 'm', 'a', 'r', ' ', 's', 'ə', 's', 'ə', 'ˈ', 'ɔ', 'r', 'a', 'ŋ', ' ', 'd', 'a', 'n', ' ', 't', 'ˈ', 'ɛ', 'k', 's', 't', 'u', 'r', ' ', 'd', 'ˈ', 'i', 'n', 'd', 'i', 'ŋ', '.']]
+21:13:31 [INFO] TTS synthesis complete [0.31s].
+21:13:31 [INFO] Playing response audio...
+21:13:40 [INFO] Conversation history cleared.
+21:13:41 [INFO] Recording started, listening for speech...
+21:13:42 [INFO] Speech detected.
+21:13:44 [INFO] Speech ended. Submitting...
+21:13:44 [WARNING] pw-record stderr: -
+21:13:44 [INFO] Captured speech successfully.
+21:13:44 [INFO] Running Gemma4 native ASR on: input_record.wav
+21:13:44 [DEBUG] Starting new HTTP connection (1): localhost:8080
+21:13:46 [DEBUG] http://localhost:8080 "POST /v1/chat/completions HTTP/1.1" 200 661
+21:13:46 [INFO] ASR [1.35s]: "Periksa segitar"
+21:13:46 [INFO] Sending prompt to Gemma4...
+21:13:46 [INFO] Chat history: 0/10 turns
+21:13:46 [DEBUG] Starting new HTTP connection (1): localhost:8080
+21:13:46 [DEBUG] http://localhost:8080 "POST /v1/chat/completions HTTP/1.1" 200 771
+21:13:46 [INFO] LLM requested 1 tool call(s).
+21:13:46 [INFO] [TOOL CALL] cek_sekitar({})
+21:14:12 [DEBUG] Starting new HTTP connection (1): localhost:8080
+21:14:17 [DEBUG] http://localhost:8080 "POST /v1/chat/completions HTTP/1.1" 200 814
+21:14:17 [INFO] LLM response [31.55s]: "Deskripsi gambar menunjukkan pemandangan interior yang sangat gelap dengan siluet beberapa orang dan objek, memberikan kesan suasana yang suram dan minim cahaya."
+21:14:17 [INFO] Synthesizing speech to: output_response.wav
+21:14:17 [DEBUG] text=Deskripsi gambar menunjukkan pemandangan interior yang sangat gelap dengan siluet beberapa orang dan objek, memberikan kesan suasana yang suram dan minim cahaya., phonemes=[['d', 'ə', 's', 'k', 'r', 'ˈ', 'i', 'p', 's', 'i', ' ', 'ɡ', 'ˈ', 'a', 'm', 'b', 'a', 'r', ' ', 'm', 'ə', 'n', 'u', 'n', 'd', 'ʒ', 'ˈ', 'u', 'k', 'k', 'a', 'n', ' ', 'p', 'ə', 'm', 'a', 'n', 'd', 'ˈ', 'a', 'ŋ', 'a', 'n', ' ', 'ˌ', 'i', 'n', 't', 'ə', 'r', 'ˈ', 'i', 'ɔ', 'r', ' ', 'j', 'a', 'ŋ', ' ', 's', 'ˈ', 'a', 'ŋ', 'a', 't', ' ', 'ɡ', 'ˈ', 'ɛ', 'l', 'a', 'p', ' ', 'd', 'ˈ', 'ɛ', 'ŋ', 'a', 'n', ' ', 's', 'i', 'l', 'ˈ', 'u', 'ə', 't', ' ', 'b', 'ə', 'b', 'ə', 'r', 'ˈ', 'a', 'p', 'a', ' ', 'ˈ', 'o', 'r', 'a', 'ŋ', ' ', 'd', 'a', 'n', ' ', 'ˈ', 'o', 'b', 'd', 'ʒ', 'ə', 'k', ',', ' ', 'm', 'ə', 'm', 'b', 'ə', 'r', 'ˈ', 'i', 'k', 'a', 'n', ' ', 'k', 'ˈ', 'ɛ', 's', 'a', 'n', ' ', 's', 'ˌ', 'u', 'a', 's', 'ˈ', 'a', 'n', 'a', ' ', 'j', 'a', 'ŋ', ' ', 's', 'ˈ', 'u', 'r', 'a', 'm', ' ', 'd', 'a', 'n', ' ', 'm', 'ˈ', 'i', 'n', 'i', 'm', ' ', 't', 'ʃ', 'a', 'h', 'ˈ', 'a', 'j', 'a', '.']]
+21:14:18 [INFO] TTS synthesis complete [0.37s].
+21:14:18 [INFO] Playing response audio...

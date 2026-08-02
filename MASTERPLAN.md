@@ -7,114 +7,112 @@ MCP (Model Context Protocol) agar modular, crash-isolated, dan mudah diperluas.
 
 ---
 
-## Arsitektur Target
+## Arsitektur Final
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│  main.py (orkestrator, start/stop semua proses)                 │
-│                                                                 │
-│  ┌──────────┐   ┌──────────────────────┐   ┌──────────────┐    │
-│  │ VAD      │   │  llama-server        │   │  Piper TTS   │    │
-│  │ record   │──►│  (Gemma 4 E2B)       │──►│  synthesize  │    │
-│  └──────────┘   └────────┬─────────────┘   └──────────────┘    │
-│                          │                                      │
-│                   tool_call (JSON)                              │
-│                          │                                      │
-│              ┌───────────▼───────────┐                          │
-│              │  MCP Host              │ ← Python MCP host       │
-│              │  - terima tool_call     │                          │
-│              │  - forward ke MCP srv   │                          │
-│              │  - balikin hasil        │                          │
-│              └───────────┬───────────┘                          │
-└──────────────────────────┼──────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────┐
+│  main.py (orkestrator, start/stop semua proses)                   │
+│                                                                    │
+│  ┌──────────┐   ┌───────────────────────┐   ┌──────────────┐      │
+│  │ VAD      │   │  llama-server          │   │  Piper TTS   │      │
+│  │ record   │──►│  (Gemma 4 E2B GGUF)   │──►│  synthesize  │      │
+│  └──────────┘   └────────┬──────────────┘   └──────────────┘      │
+│                          │                                         │
+│                   tool_call (JSON)                                 │
+│                          │                                         │
+│              ┌───────────▼───────────┐                             │
+│              │  MCP Host             │ ← karen_mcp/host.py         │
+│              │  (stdio JSON-RPC)     │   (Anthropic MCP SDK)       │
+│              └───────────┬───────────┘                             │
+└──────────────────────────┼─────────────────────────────────────────┘
                            │
-     ┌─────────────────────┼─────────────────────┐
-     ▼                     ▼                     ▼
-┌────────────┐    ┌──────────────┐    ┌──────────────┐
-│ MCP Server │    │ MCP Server   │    │ MCP Server   │
-│ vision     │    │ ocr          │    │ info/weather │
-│ (camera +  │    │ (Tesseract / │    │ (web, JSON)  │
-│  describe) │    │  Gemma crop) │    │              │
-└────────────┘    └──────────────┘    └──────────────┘
+     ┌─────────────────────┼──────────────────────────┐
+     ▼                     ▼                          ▼
+┌────────────────┐  ┌────────────────┐  ┌────────────────────┐
+│ karen-web      │  │ karen-info     │  │ karen-vision       │
+│ cari_web       │  │ cari_info      │  │ cek_sekitar        │
+│ cek_cuaca      │  │ _organisasi    │  │ baca_teks (OCR)    │
+│ (DuckDuckGo)   │  │ get_semua_info │  │ (USB Webcam +      │
+│                │  │ (JSON lokal)   │  │  Gemma 4 Vision)   │
+└────────────────┘  └────────────────┘  └────────────────────┘
 ```
 
 ---
 
-## Komponen
+## Komponen (Final)
 
-### Layer 1: Core Pipeline (wajib)
+### Layer 1: Core Pipeline
 
-| File | Fungsi | Status |
-|---|---|---|
-| `main.py` | Entry point, init & loop | 🔴 Belum |
-| `core/audio.py` | VAD + record mic | 🔴 Pindah dari gemma4.py |
-| `core/gemma_pipeline.py` | Wrapper llama-server (chat + vision) | 🔴 Belum |
-| `core/speak_queue.py` | Antrian TTS thread-safe | 🔴 Belum |
-| `config.py` | Konstanta terpusat | 🟡 Akan dibuat |
+| File | Fungsi |
+|---|---|
+| `main.py` | Entry point, init & keyboard loop (`r`/`c`/`q`) |
+| `core/audio.py` | Silero VAD + pw-record mic capture |
+| `core/gemma_pipeline.py` | Wrapper llama-server (ASR, chat, vision) + MCP integration |
+| `core/speak_queue.py` | Piper TTS synthesis + pygame playback |
+| `config.py` | Konstanta terpusat (path, port, threshold) |
 
-### Layer 2: MCP (Model Context Protocol)
+### Layer 2: MCP Infrastructure
 
-| File | Fungsi | Status |
-|---|---|---|
-| `mcp/host.py` | MCP host: terima tool_call → forward ke server | 🔴 Belum |
-| `mcp/server_base.py` | Base class / util untuk MCP server | 🔴 Belum |
+| File | Fungsi |
+|---|---|
+| `karen_mcp/host.py` | MCP host: launch servers, handshake, aggregate schemas, forward tool calls (Anthropic MCP SDK) |
 
-### Layer 3: Tools (MCP Servers)
+### Layer 3: MCP Servers
 
-| Server | Fungsi | Status |
-|---|---|---|
-| `mcp/servers/vision_server.py` | Camera capture + describe (Gemma 4 vision) | 🔴 Belum |
-| `mcp/servers/ocr_server.py` | OCR via Tesseract / Gemma 4 crop | 🔴 Belum |
-| `mcp/servers/web_server.py` | DuckDuckGo search + weather | 🟡 Reuse dari tools/web_search.py |
-| `mcp/servers/info_server.py` | Query JSON organisasi / DB lokal | 🟡 Reuse dari tools/organisasi_search.py |
-
-### Layer 4: Pipeline (suara)
-
-| File | Fungsi | Status |
-|---|---|---|
-| `core/pipeline.py` | VoiceAssistantPipeline yg sudah dibersihkan | 🟡 Refactor dari gemma4.py |
-| `speak.py` | Piper TTS standalone | 🟢 Reuse |
+| Server File | Tools |
+|---|---|
+| `karen_mcp/servers/web_server.py` | `cari_web`, `cek_cuaca` |
+| `karen_mcp/servers/info_server.py` | `cari_info_organisasi`, `get_semua_info_organisasi` |
+| `karen_mcp/servers/vision_server.py` | `cek_sekitar`, `baca_teks` |
 
 ---
 
-## Phase Plan
+## Status Implementasi
 
-### Phase 1: Initial Cleanup (sekarang)
+### ✅ Phase 1: Initial Cleanup
 
 - [x] Fix `pw-record` command (hapus `-a`)
 - [x] Hapus VoiceScope dari main loop
 - [x] Log ke console (StreamHandler)
-- [ ] Debounce spam 'c' key
-- [ ] Hapus file obsolete: `greeter.py`, `anime.py`, `visualizer.py`, `database-search.py`, `gemini.py`
-- [ ] Hapus `tools/database_search.py`
-- [ ] Hapus `models/asr/` (Qwen3 GGUF tidak dipakai)
-- [ ] Buat `config.py` berisi konstanta dari gemma4.py
-- [ ] Buat struktur direktori `mcp/servers/`
+- [x] Debounce spam 'c' key
+- [x] Hapus file obsolete: `greeter.py`, `anime.py`, `visualizer.py`, `database-search.py`, `gemini.py`
+- [x] Hapus `tools/database_search.py`
+- [x] Hapus `models/asr/`
+- [x] Buat `config.py`
+- [x] Buat struktur direktori `karen_mcp/servers/`
 
-### Phase 2: MCP Infrastructure
+### ✅ Phase 2: MCP Infrastructure
 
-- [ ] Buat `mcp/host.py` — implementasi MCP host via stdio JSON-RPC
-- [ ] Buat `mcp/server_base.py` — base class untuk MCP server
-- [ ] Migrasi `tools/web_search.py` → `mcp/servers/web_server.py`
-- [ ] Migrasi `tools/organisasi_search.py` → `mcp/servers/info_server.py`
-- [ ] Hapus `tools/registry.py` (tidak diperlukan lagi)
-- [ ] Integrasi MCP host ke main pipeline
+- [x] Buat `karen_mcp/host.py` — MCP host via stdio JSON-RPC (Anthropic MCP SDK)
+- [x] Migrasi `tools/web_search.py` → `karen_mcp/servers/web_server.py`
+- [x] Migrasi `tools/organisasi_search.py` → `karen_mcp/servers/info_server.py`
+- [x] Hapus `tools/registry.py` dan seluruh folder `tools/`
+- [x] Integrasi MCP host ke `core/gemma_pipeline.py`
 
-### Phase 3: Vision
+### ✅ Phase 3: Vision
 
-- [ ] Buat `mcp/servers/vision_server.py` — camera capture via OpenCV
-- [ ] Integrasi Gemma 4 multimodal (kirim base64 image ke /v1/chat/completions)
-- [ ] Tool: `cek_sekitar()` — ambil foto → describe
-- [ ] Tool: `baca_teks()` — ambil foto → crop → OCR
-- [ ] Test latency end-to-end
+- [x] Buat `karen_mcp/servers/vision_server.py` — camera capture via OpenCV
+- [x] Integrasi Gemma 4 multimodal (kirim base64 image ke `/v1/chat/completions`)
+- [x] Tool: `cek_sekitar()` — ambil foto → describe
+- [x] Tool: `baca_teks()` — ambil foto → OCR
 
-### Phase 4: Polish
+### ✅ Phase 4: Polish
 
-- [ ] `core/speak_queue.py` — antrian TTS thread-safe
-- [ ] `core/pipeline.py` — pipeline tunggal (tidak ada lagi Pipeline A vs B)
-- [ ] Hapus `gemma4.py` setelah semua logic pindah
-- [ ] Hapus fallback `_detect_tool_intent()` (MCP handle sendiri)
-- [ ] Test di Orange Pi / device target
+- [x] `core/speak_queue.py` — queue TTS thread-safe
+- [x] Hapus `gemma4.py` — semua logic pindah ke `core/` + `main.py`
+- [x] Hapus fallback `_detect_tool_intent()` — MCP handle sendiri
+- [x] `walkthrough.md` — dokumentasi migrasi
+- [x] `KNOWLEDGE_GRAPH.md` — diperbarui sesuai arsitektur MCP
+
+---
+
+## Cara Menjalankan
+
+```bash
+python main.py
+```
+
+Kontrol: `r` = record, `c` = clear history, `q` = quit.
 
 ---
 
@@ -123,5 +121,5 @@ MCP (Model Context Protocol) agar modular, crash-isolated, dan mudah diperluas.
 1. **Satu pipeline** — semua request (voice & vision) lewat `core/gemma_pipeline.py`
 2. **Tool = MCP Server** — setiap tool jalan di proses sendiri, komunikasi JSON-RPC via stdio
 3. **Camera exclusive** — vision server satu-satunya yang akses kamera
-4. **No image 저장** — vision cuma simpan teks deskripsi, bukan frame
+4. **No image storage** — vision cuma simpan teks deskripsi, bukan frame
 5. **Config terpusat** — semua path, port, threshold di `config.py`
