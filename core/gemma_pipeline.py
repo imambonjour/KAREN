@@ -150,6 +150,50 @@ class GemmaPipeline:
         log.info(f'ASR [{time.time() - start_time:.2f}s]: "{text}"')
         return text
 
+    # -- Vision ---------------------------------------------------------------
+
+    def vision_query(self, image_input, prompt: str) -> str:
+        """Analyze an image (OpenCV numpy array or file path) with Gemma 4 vision."""
+        start_time = time.time()
+
+        if isinstance(image_input, str):
+            with open(image_input, "rb") as f:
+                image_b64 = base64.b64encode(f.read()).decode("ascii")
+        else:
+            import cv2
+
+            success, buffer = cv2.imencode(
+                ".jpg", image_input, [int(cv2.IMWRITE_JPEG_QUALITY), 92]
+            )
+            if not success:
+                raise ValueError("Failed to encode image to JPEG.")
+            image_b64 = base64.b64encode(buffer.tobytes()).decode("ascii")
+
+        payload = {
+            "messages": [
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "image_url",
+                            "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"},
+                        },
+                        {"type": "text", "text": prompt},
+                    ],
+                }
+            ],
+            "temperature": 0.2,
+            "max_tokens": 512,
+            "chat_template_kwargs": {"enable_thinking": False},
+        }
+
+        response = requests.post(config.GEMMA4_CHAT_URL, json=payload, timeout=60)
+        response.raise_for_status()
+        raw_text = response.json()["choices"][0]["message"]["content"]
+        text = self._clean_response(raw_text)
+        log.info(f'Vision [{time.time() - start_time:.2f}s]: "{text[:100]}"')
+        return text
+
     # -- Chat + Tool Calling -------------------------------------------------
 
     def query_llm(self, user_text: str) -> str:

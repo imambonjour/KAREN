@@ -61,6 +61,24 @@ def _log_step(step: int, total: int, message: str):
     log.info(f"Loading [{step}/{total}] {message}")
 
 
+def capture_frame():
+    """Capture a single frame from the camera, return OpenCV BGR array or None."""
+    import cv2
+
+    cap = cv2.VideoCapture(config.CAMERA_INDEX)
+    if not cap.isOpened():
+        log.error(f"Cannot open camera (index={config.CAMERA_INDEX})")
+        return None
+    try:
+        ret, frame = cap.read()
+        if not ret:
+            log.error("Failed to capture frame from camera")
+            return None
+        return frame
+    finally:
+        cap.release()
+
+
 def main():
     pipeline = GemmaPipeline()
     speaker = SpeakQueue()
@@ -80,7 +98,7 @@ def main():
         output_audio = "output_response.wav"
 
         kb.enable_raw()
-        log.info("KAREN ready. Press 'r' to record, 'c' to clear history, 'q' to quit.")
+        log.info("KAREN ready. Press 'r' to record, 'f' to take photo, 'c' to clear history, 'q' to quit.")
 
         trigger_record = False
         last_c_time = 0.0
@@ -102,6 +120,34 @@ def main():
                     last_c_time = now
                     pipeline.reset_history()
                 continue
+
+            if char_lower == "f":
+                log.info("Capturing photo for LLM analysis...")
+                frame = capture_frame()
+                if frame is None:
+                    log.warning("No frame captured from camera.")
+                    time.sleep(1)
+                    continue
+
+                prompt = (
+                    "Lihat gambar ini. Jika terdapat teks/tulisan di dalamnya, "
+                    "bacakan dan transkripsikan seluruh isi teks secara verbatim dalam Bahasa Indonesia. "
+                    "Jika tidak ada teks, deskripsikan objek dan suasana yang terlihat secara ringkas."
+                )
+                response_text = pipeline.vision_query(frame, prompt)
+                if not response_text.strip():
+                    log.warning("LLM vision returned empty text.")
+                    time.sleep(1)
+                    continue
+
+                speaker.synthesize(response_text, output_audio)
+                action = speaker.play_audio(output_audio, get_char_fn=kb.get_char)
+
+                if action == "q":
+                    break
+                if action == "r":
+                    trigger_record = True
+                    continue
 
             if char_lower == "r":
                 record_result = record_speech(vad_iterator, input_audio, kb.get_char)

@@ -4,6 +4,7 @@ GEMMA4_MMPROJ_PATH = "models/Gemma4/mmproj-F16.gguf"
 GEMMA4_MTP_PATH = "models/Gemma4/mtp-gemma-4-E2B-it.gguf"
 TTS_MODEL_PATH = "models/piper/id_ID-news_tts-medium.onnx"
 VAD_MODEL_PATH = "models/silero_vad.onnx"
+CAMERA_INDEX = 0
 GEMMA4_PORT = 8080
 GEMMA4_CHAT_URL = f"http://localhost:{GEMMA4_PORT}/v1/chat/completions"
 SAMPLE_RATE = 16000
