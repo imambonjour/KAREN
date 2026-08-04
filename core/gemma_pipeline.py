@@ -184,6 +184,18 @@ class GemmaPipeline:
             log.warning(f"detect_objects failed: {e}")
             return []
 
+    def simpan_frame(self) -> str:
+        """Save the latest camera frame to temp/ (debug feature).
+        Calls MCP tool 'simpan_frame'."""
+        try:
+            result_str = self._loop.run_until_complete(
+                self._mcp_host.call_tool("simpan_frame", {})
+            )
+            return result_str
+        except Exception as e:
+            log.warning(f"simpan_frame failed: {e}")
+            return ""
+
     # -- Chat + Tool Calling -------------------------------------------------
 
     def query_llm(self, user_text: str) -> str:

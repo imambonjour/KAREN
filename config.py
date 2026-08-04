@@ -10,6 +10,8 @@ except ImportError:
 # BISA DIUBAH VIA ENVIRONMENT VARIABLE ATAU FILE .env
 CAMERA_INDEX = int(os.environ.get("CAMERA_INDEX", "0"))
 CAMERA_PREVIEW = os.environ.get("CAMERA_PREVIEW", "false").lower() in ("true", "1", "yes")
+CAMERA_WIDTH = int(os.environ.get("CAMERA_WIDTH", "1280"))
+CAMERA_HEIGHT = int(os.environ.get("CAMERA_HEIGHT", "720"))
 
 # Audio Device Settings (PipeWire / ALSA / PulseAudio / SoundCard)
 # AUDIO_INPUT_DEVICE: Nama/ID node target pw-record atau ALSA device (misal: "alsa_input.usb-xxx", "1", "default")
@@ -36,6 +38,12 @@ VAD_MIN_SILENCE_MS = 500
 VAD_SPEECH_PAD_MS = 30
 VAD_MIN_SPEECH_MS = 250
 MAX_HISTORY_TURNS = 10
+
+# Vision LLM request timeout (seconds) — increase for slow SBC inference
+VISION_TIMEOUT = int(os.environ.get("VISION_TIMEOUT", "180"))
+
+# Temp / Debug Output
+TEMP_DIR = "temp"  # directory for saved debug images (f-button captures)
 
 # YOLO Object Detection
 YOLO_MODEL_PATH          = "models/yolov26n.onnx"

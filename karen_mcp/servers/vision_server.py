@@ -202,7 +202,11 @@ class _CameraThread(threading.Thread):
             log.error(f"_CameraThread: cannot open camera index={idx}")
             return
 
-        log.info(f"_CameraThread started (camera index={idx})")
+        cap.set(cv2.CAP_PROP_FRAME_WIDTH, config.CAMERA_WIDTH)
+        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, config.CAMERA_HEIGHT)
+        actual_w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+        actual_h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        log.info(f"_CameraThread started (camera index={idx}, capture {actual_w}x{actual_h})")
         last_yolo_time = 0.0
 
         try:
@@ -267,7 +271,7 @@ def _ask_gemma_vision(image_b64: str, prompt: str) -> str:
         "max_tokens": 300,
         "chat_template_kwargs": {"enable_thinking": False},
     }
-    response = requests.post(GEMMA4_CHAT_URL, json=payload, timeout=60)
+    response = requests.post(GEMMA4_CHAT_URL, json=payload, timeout=config.VISION_TIMEOUT)
     response.raise_for_status()
     return response.json()["choices"][0]["message"]["content"].strip()
 
@@ -337,6 +341,26 @@ def analisa_foto() -> dict:
         return {"hasil": hasil}
     except Exception as e:
         log.exception("analisa_foto failed")
+        return {"error": str(e)}
+
+
+@server.tool()
+def simpan_frame() -> dict:
+    """Menyimpan frame kamera terbaru ke direktori temp/ di workspace (untuk keperluan tes/debug).
+    Mengembalikan path file yang tersimpan."""
+    try:
+        image_b64 = _get_latest_frame_b64()
+        jpeg_bytes = base64.b64decode(image_b64)
+        temp_dir = config.TEMP_DIR
+        os.makedirs(temp_dir, exist_ok=True)
+        filename = f"foto_{time.strftime('%Y%m%d_%H%M%S')}.jpg"
+        filepath = os.path.abspath(os.path.join(temp_dir, filename))
+        with open(filepath, "wb") as f:
+            f.write(jpeg_bytes)
+        log.info(f"simpan_frame: saved {filepath} ({len(jpeg_bytes)} bytes)")
+        return {"path": filepath, "bytes": len(jpeg_bytes)}
+    except Exception as e:
+        log.exception("simpan_frame failed")
         return {"error": str(e)}
 
 

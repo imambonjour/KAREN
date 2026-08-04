@@ -110,6 +110,9 @@ def main():
 
             if char_lower == "f":
                 log.info("[f] Vision scan: capturing photo for LLM analysis...")
+                saved = pipeline.simpan_frame()
+                if saved:
+                    log.info(f"[f] Frame saved: {saved}")
                 response_text = pipeline.vision_scan()
                 if not response_text.strip():
                     log.warning("vision_scan returned empty text.")
