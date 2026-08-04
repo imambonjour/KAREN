@@ -121,7 +121,10 @@ def record_speech(vad_iterator: StreamingVADIterator, output_path: str, get_char
     """
     log.info("Recording started, listening for speech...")
 
-    cmd = ["pw-record", "--channels=1", "--rate", str(config.SAMPLE_RATE), "--format=s16", "-"]
+    cmd = ["pw-record", "--channels=1", "--rate", str(config.SAMPLE_RATE), "--format=s16"]
+    if config.AUDIO_INPUT_DEVICE:
+        cmd.extend(["--target", str(config.AUDIO_INPUT_DEVICE)])
+    cmd.append("-")
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     vad_iterator.reset_states()
 

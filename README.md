@@ -1,37 +1,70 @@
-# KAREN (Karya Asisten Registrasi & Edukasi Nirkabel) - Voice Assistant
+# KAREN (Karya Asisten Registrasi & Edukasi Nirkabel) - Embedded AI Voice & Vision Assistant
 
-Proyek ini adalah asisten suara pintar berbasis AI Bahasa Indonesia yang mengintegrasikan deteksi suara (VAD), pengenalan wicara (ASR), pemrosesan bahasa alami (LLM), dan sintesis suara (TTS). Asisten ini dirancang untuk dapat berinteraksi secara interaktif untuk menjawab pertanyaan pendaftaran, cuaca, pencarian web, serta menyapa pendaftar secara otomatis (Welcome Greeter).
+KAREN adalah asisten suara dan penglihatan pintar berbasis AI Bahasa Indonesia yang dirancang khusus untuk berjalan di perangkat **Single Board Computer (SBC)** seperti Orange Pi / Raspberry Pi maupun PC/Laptop secara **headless** atau interaktif.
+
+Proyek ini mengintegrasikan **Model Context Protocol (MCP)**, **Gemma 4 VLM (Multimodal)** lokal via `llama-server`, **YOLO Object Detection (ONNX)**, **ArcFace & YOLOv8 Face Recognition**, **Silero VAD**, dan **Piper TTS**.
 
 ---
 
 ## 🛠️ Arsitektur & Fitur Utama
 
-Proyek ini memiliki beberapa komponen utama yang bekerja secara bersinergi:
+```
+                     ┌────────────────────────┐
+                     │   main.py (CLI Main)   │
+                     └───────────┬────────────┘
+                                 │
+                 ┌───────────────┴───────────────┐
+                 ▼                               ▼
+       ┌──────────────────┐           ┌──────────────────┐
+       │ core/audio.py    │           │ core/speak_queue │
+       │ (VAD Recording)  │           │   (Piper TTS)    │
+       └──────────────────┘           └──────────────────┘
+                 │
+                 ▼
+     ┌───────────────────────┐
+     │ core/gemma_pipeline   │
+     └───────────┬───────────┘
+                 │
+                 ├──────────────────────────┐
+                 ▼                          ▼
+      ┌────────────────────┐     ┌─────────────────────┐
+      │ llama-server       │     │ MCP Host & Servers  │
+      │ (Gemma 4 Multimodal│     │ - info_server       │
+      │  ASR, Chat, VLM)   │     │ - weather_server    │
+      └────────────────────┘     │ - search_server     │
+                                 │ - vision_server     │
+                                 │   (YOLO & Camera)   │
+                                 └─────────────────────┘
+```
 
-### 1. Sistem Deteksi Suara (Voice Activity Detection - VAD)
-*   Menggunakan **Silero VAD** (`models/silero_vad.onnx`) yang dijalankan secara lokal via ONNX Runtime.
-*   Secara otomatis memotong audio rekaman ketika pengguna selesai berbicara (berdasarkan ambang kesunyian/silence threshold).
+### 1. 🎤 Voice Activity Detection (VAD) & Input Audio
+* **Silero VAD v5** (`models/silero_vad.onnx`) via ONNX Runtime.
+* Otomatis memotong rekaman audio saat pengguna berhenti berbicara.
+* Kompatibel dengan USB Soundcard / Microphone Adapter di SBC (`pw-record` / PipeWire).
 
-### 2. Sintesis Suara (Text-to-Speech - TTS)
-*   Menggunakan **Piper TTS** (`models/piper/id_ID-news_tts-medium.onnx`) untuk menghasilkan suara asisten yang alami dalam Bahasa Indonesia.
+### 2. 🧠 Native Audio ASR & LLM (Gemma 4 Multimodal)
+* Menggunakan **Gemma 4 E2B** (`models/Gemma4/gemma-4-E2B-it-UD-Q4_K_XL.gguf`) diproses via `llama-server`.
+* **Native Audio Understanding**: Menerjemahkan audio WAV langsung tanpa perlu engine Whisper terpisah.
+* **Function Calling / Tool Use**: Terhubung otomatis ke MCP server untuk mengambil data dunia nyata.
 
-### 3. Dua Model Jalur Pipeline Asisten (LLM + ASR)
-Proyek menyediakan dua pilihan modul utama untuk berinteraksi:
-*   **Pipeline Gemini (`gemini.py`)**:
-    *   **ASR**: Menggunakan **pywhispercpp** secara lokal (mengunduh model Whisper `base`).
-    *   **LLM**: Menggunakan **Gemini API** via Google GenAI SDK (model `gemini-3.1-flash-lite`).
-*   **Pipeline Gemma4 (`main.py`)**:
-    *   **ASR & LLM**: Menjalankan server LLM lokal menggunakan **Gemma 4** (`models/Gemma4/gemma-4-E2B-it-qat-UD-Q2_K_XL.gguf`) via `llama-server`. Menggunakan kemampuan pemahaman audio bawaan (Native Audio Understanding) untuk mentranskripsikan suara secara langsung.
+### 3. 🔌 MCP Tool Architecture (Model Context Protocol)
+Semua kapabilitas eksternal dikemas ke dalam server MCP independen:
+* **`info_server`**: Informasi organisasi/pendaftaran KIR.
+* **`weather_server`**: Informasi cuaca real-time.
+* **`search_server`**: DuckDuckGo web search.
+* **`vision_server`**: Penglihatan kamera & deteksi objek.
 
-### 4. Welcome Greeter (`greeter.py`)
-*   Script latar belakang (background worker) yang memeriksa tabel pendaftaran (`registrations`) di **Supabase** setiap 5 detik.
-*   Jika ada pendaftar baru, sistem akan menyapa mereka secara langsung menggunakan suara (Piper TTS).
+### 4. 👁️ Camera & Vision (YOLO + Gemma 4 VLM)
+* **Single Camera Ownership**: Camera device (`/dev/video0`) di-lock secara eksklusif oleh daemon thread di `vision_server.py`.
+* **YOLO Object Detection (ONNX)**: Berjalan secara kontinu di background untuk mendeteksi 80 kelas COCO tanpa membebani LLM.
+* **VLM On-Demand**: Menggunakan Gemma 4 Vision untuk membaca teks (OCR) atau mendeskripsikan suasana sekitar saat tombol `f` ditekan atau diminta lewat suara.
 
-### 5. Modul Alat Asisten (Tool Registry / Function Calling)
-AI dibekali kemampuan memanggil fungsi eksternal (`tools/`) secara dinamis sesuai konteks:
-*   **Pencarian Database (`tools/database_search.py`)**: Terhubung ke database Supabase untuk mencari pendaftar berdasarkan nama, sekolah, atau menghitung total pendaftar secara fleksibel (`cari_pendaftar`, `hitung_total_pendaftar`).
-*   **Pencarian Web (`tools/web_search.py`)**: Digunakan ketika pengguna menanyakan informasi umum di luar database lokal.
-*   **Registrasi Alat (`tools/registry.py`)**: Menggabungkan skema dan pemetaan fungsi secara dinamis untuk dikonsumsi LLM.
+### 5. 🔊 Speech Synthesis (TTS)
+* **Piper TTS** (`models/piper/id_ID-news_tts-medium.onnx`) untuk menghasilkan respons suara Bahasa Indonesia yang natural.
+* Non-blocking audio queue playback (`core/speak_queue.py`).
+
+### 6. 👤 Face Recognition (Fitur Terpisah)
+* [face.py](file:///home/normies/Projects/KAREN/face.py) & [app/registration/register_person.py](file:///home/normies/Projects/KAREN/app/registration/register_person.py): Sistem pengenalan wajah real-time berbasis YOLOv8-Face + ArcFace/w600k_r50 ONNX dengan SQLite database.
 
 ---
 
@@ -39,45 +72,52 @@ AI dibekali kemampuan memanggil fungsi eksternal (`tools/`) secara dinamis sesua
 
 ```bash
 KAREN/
-├── gemini.py              # Pipeline Asisten menggunakan Gemini API + pywhispercpp
-├── main.py                # Pipeline Asisten menggunakan Gemma 4 Lokal (llama-server)
-├── greeter.py             # Otomatisasi sapaan pendaftar baru dari database
-├── database-search.py     # CLI tool untuk pengujian query Supabase secara manual
-├── tools/                 # Modul tool/fungsi eksternal untuk LLM
-│   ├── registry.py        # Penggabung skema & fungsi alat
-│   ├── database_search.py # Integrasi query database Supabase
-│   └── web_search.py      # Pencarian informasi web luar
-├── models/                # Folder penyimpanan model local (VAD, Piper, Gemma)
-├── .env                   # Variabel lingkungan (Supabase & API Key)
-└── pyproject.toml         # Konfigurasi dependensi project (uv / pip)
+├── main.py                # Main Entry Point (Voice + Vision Assistant CLI)
+├── config.py              # Konfigurasi terpusat (Path, Port, Threshold, Device)
+├── face.py                # Standalone Real-Time Face Recognition GUI
+├── paper_detection_llm.py # Standalone OCR/Document Reader + LLM
+├── core/                  # Core modules
+│   ├── audio.py           # Silero VAD + Recording
+│   ├── gemma_pipeline.py  # Lifecycle llama-server, ASR, Chat, Vision & MCP Host
+│   └── speak_queue.py     # Piper TTS synthesizer & audio player
+├── karen_mcp/             # System MCP (Model Context Protocol)
+│   ├── host.py            # MCP Host Client orchestrator
+│   └── servers/           # Individual MCP Servers
+│       ├── info_server.py
+│       ├── weather_server.py
+│       ├── search_server.py
+│       └── vision_server.py # Camera ownership, YOLO loop, VLM tools
+├── app/                   # Module Face Recognition & Overlay Renderer
+├── models/                # Folder penyimpanan model ONNX & GGUF
+└── README.md
 ```
 
 ---
 
 ## 🚀 Cara Menjalankan
 
-### Persiapan Lingkungan
-1. Buat file `.env` dan lengkapi konfigurasi berikut:
-   ```env
-   SUPABASE_URL="https://your-supabase-url.supabase.co"
-   SUPABASE_SERVICE_ROLE_KEY="your-supabase-key"
-   GEMINI_API_KEY="your-gemini-api-key"
-   ```
-2. Pastikan file model ONNX (VAD & Piper) serta GGUF (Gemma4) diletakkan di dalam folder `models/`.
+### 1. Persiapan Model & Environment
+Pastikan file model berada di folder `models/`:
+* `models/Gemma4/gemma-4-E2B-it-UD-Q4_K_XL.gguf`
+* `models/Gemma4/mmproj-F16.gguf`
+* `models/silero_vad.onnx`
+* `models/piper/id_ID-news_tts-medium.onnx`
+* `models/yolov26n.onnx`
 
-### Menjalankan Asisten Suara
-*   **Menggunakan Gemini (Cloud LLM + Local ASR)**:
-    ```bash
-    python gemini.py
-    ```
-*   **Menggunakan Gemma 4 (Full Local)**:
-    ```bash
-    python main.py
-    ```
-*   *Penggunaan:* Tekan tombol `r` pada keyboard untuk mulai berbicara, dan asisten akan otomatis memproses setelah Anda selesai berbicara. Tekan `q` untuk keluar.
-
-### Menjalankan Welcome Greeter
-Untuk menyapa pendaftar baru yang masuk ke database secara otomatis:
-```bash
-python greeter.py
+Variabel lingkungan dapat disesuaikan di `.env` atau `config.py`:
+```env
+CAMERA_INDEX=0
+GEMMA4_PORT=8080
 ```
+
+### 2. Menjalankan KAREN Assistant
+Gunakan `uv` untuk menjalankannya:
+```bash
+uv run main.py
+```
+
+### 3. Kontrol Keyboard (Interaktif CLI)
+* `r` : Rekam suara (VAD akan mendeteksi ketika Anda selesai berbicara).
+* `f` : Ambil foto dari kamera & analisis dengan LLM (Deskripsi / OCR).
+* `c` : Reset riwayat percakapan.
+* `q` : Keluar dari program.

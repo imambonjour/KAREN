@@ -150,49 +150,39 @@ class GemmaPipeline:
         log.info(f'ASR [{time.time() - start_time:.2f}s]: "{text}"')
         return text
 
-    # -- Vision ---------------------------------------------------------------
+    # -- Vision (via MCP camera-exclusive thread) ----------------------------
 
-    def vision_query(self, image_input, prompt: str) -> str:
-        """Analyze an image (OpenCV numpy array or file path) with Gemma 4 vision."""
+    def vision_scan(self) -> str:
+        """Capture latest frame and analyse with LLM (OCR or description).
+        Calls MCP tool 'analisa_foto' in vision_server."""
         start_time = time.time()
-
-        if isinstance(image_input, str):
-            with open(image_input, "rb") as f:
-                image_b64 = base64.b64encode(f.read()).decode("ascii")
-        else:
-            import cv2
-
-            success, buffer = cv2.imencode(
-                ".jpg", image_input, [int(cv2.IMWRITE_JPEG_QUALITY), 92]
+        try:
+            result_str = self._loop.run_until_complete(
+                self._mcp_host.call_tool("analisa_foto", {})
             )
-            if not success:
-                raise ValueError("Failed to encode image to JPEG.")
-            image_b64 = base64.b64encode(buffer.tobytes()).decode("ascii")
-
-        payload = {
-            "messages": [
-                {
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "image_url",
-                            "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"},
-                        },
-                        {"type": "text", "text": prompt},
-                    ],
-                }
-            ],
-            "temperature": 0.2,
-            "max_tokens": 512,
-            "chat_template_kwargs": {"enable_thinking": False},
-        }
-
-        response = requests.post(config.GEMMA4_CHAT_URL, json=payload, timeout=60)
-        response.raise_for_status()
-        raw_text = response.json()["choices"][0]["message"]["content"]
-        text = self._clean_response(raw_text)
-        log.info(f'Vision [{time.time() - start_time:.2f}s]: "{text[:100]}"')
+            import json as _json
+            data = _json.loads(result_str)
+            text = data.get("hasil") or data.get("error", "")
+        except Exception as e:
+            log.exception("vision_scan failed")
+            text = ""
+        text = self._clean_response(text)
+        log.info(f'vision_scan [{time.time() - start_time:.2f}s]: "{text[:80]}"')
         return text
+
+    def detect_objects(self) -> list[dict]:
+        """Return latest YOLO detections from vision_server (no LLM).
+        Calls MCP tool 'deteksi_objek'."""
+        try:
+            result_str = self._loop.run_until_complete(
+                self._mcp_host.call_tool("deteksi_objek", {})
+            )
+            import json as _json
+            data = _json.loads(result_str)
+            return data.get("detections", [])
+        except Exception as e:
+            log.warning(f"detect_objects failed: {e}")
+            return []
 
     # -- Chat + Tool Calling -------------------------------------------------
 
@@ -212,6 +202,7 @@ class GemmaPipeline:
             "- informasi lengkap organisasi → panggil get_semua_info_organisasi\n"
             "- lihat sekitar, apa yang di depan, deskripsikan pemandangan → panggil cek_sekitar\n"
             "- baca tulisan, baca teks, apa yang tertulis → panggil baca_teks\n"
+            "- objek apa di sekitar, ada apa di ruangan, deteksi benda → panggil deteksi_objek\n"
             "JANGAN jawab sendiri tanpa tool jika informasi bisa dicari.\n"
             "\n"
             "Jawab singkat dan padat dalam 1-2 kalimat setelah mendapat hasil tool."
