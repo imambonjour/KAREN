@@ -23,12 +23,14 @@ AUDIO_OUTPUT_DEVICE = os.environ.get("AUDIO_OUTPUT_DEVICE", None)
 # Cloud Model Configuration
 GEMINI_MODEL_NAME = os.environ.get("GEMINI_MODEL_NAME", "gemini-3.5-flash")
 
-LLAMA_SERVER_PATH = "./llama/llama-server"
-GEMMA4_MODEL_PATH = "models/Gemma4/gemma-4-E2B-it-UD-Q4_K_XL.gguf"
-GEMMA4_MMPROJ_PATH = "models/Gemma4/mmproj-F16.gguf"
-GEMMA4_MTP_PATH = "models/Gemma4/mtp-gemma-4-E2B-it.gguf"
-TTS_MODEL_PATH = "models/piper/id_ID-news_tts-medium.onnx"
-VAD_MODEL_PATH = "models/silero_vad.onnx"
+# Local Models Configuration (bisa diubah langsung di bawah atau lewat .env)
+LLAMA_SERVER_PATH = os.environ.get("LLAMA_SERVER_PATH", "./llama/llama-server")
+GEMMA4_MODEL_PATH = os.environ.get("GEMMA4_MODEL_PATH", "models/Gemma4/gemma-4-E2B-it-UD-Q4_K_XL.gguf")
+GEMMA4_MMPROJ_PATH = os.environ.get("GEMMA4_MMPROJ_PATH", "models/Gemma4/mmproj-F16.gguf")
+GEMMA4_MTP_PATH = os.environ.get("GEMMA4_MTP_PATH", "models/Gemma4/mtp-gemma-4-E2B-it.gguf")
+TTS_MODEL_PATH = os.environ.get("TTS_MODEL_PATH", "models/piper/id_ID-news_tts-medium.onnx")
+VAD_MODEL_PATH = os.environ.get("VAD_MODEL_PATH", "models/silero_vad.onnx")
+YOLO_MODEL_PATH = os.environ.get("YOLO_MODEL_PATH", "models/yolov26n.onnx")
 GEMMA4_PORT = int(os.environ.get("GEMMA4_PORT", "8080"))
 GEMMA4_CHAT_URL = f"http://localhost:{GEMMA4_PORT}/v1/chat/completions"
 SAMPLE_RATE = 16000
