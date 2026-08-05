@@ -110,6 +110,7 @@ def main():
 
             if char_lower == "f":
                 log.info("[f] Vision scan: capturing photo for LLM analysis...")
+                t_start = time.monotonic()
                 saved = pipeline.simpan_frame()
                 if saved:
                     log.info(f"[f] Frame saved: {saved}")
@@ -124,6 +125,9 @@ def main():
                 action = speaker.play_audio(output_audio, get_char_fn=kb.get_char)
                 is_speaking = False
 
+                elapsed = time.monotonic() - t_start
+                log.info(f"[f] Task finished (took {elapsed:.2f} sec)")
+
                 if action == "q":
                     break
                 if action == "r":
@@ -136,6 +140,8 @@ def main():
                     break
                 if record_result != "ok":
                     continue
+
+                t_start = time.monotonic()
 
                 # ASR
                 transcribed = pipeline.speech_to_text(input_audio)
@@ -152,6 +158,9 @@ def main():
                 speaker.synthesize(response_text, output_audio)
                 action = speaker.play_audio(output_audio, get_char_fn=kb.get_char)
                 is_speaking = False
+
+                elapsed = time.monotonic() - t_start
+                log.info(f"[r] Task finished (took {elapsed:.2f} sec)")
 
                 if action == "q":
                     break
