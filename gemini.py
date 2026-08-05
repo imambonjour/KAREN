@@ -139,6 +139,7 @@ def main():
 
             if char_lower == "f":
                 log.info("[f] Vision scan: capturing photo via MCP → Gemini Vision...")
+                t_start = time.monotonic()
                 response_text = pipeline.vision_scan()
                 if not response_text.strip():
                     log.warning("vision_scan returned empty text.")
@@ -149,6 +150,9 @@ def main():
                 speaker.synthesize(response_text, output_audio)
                 action = speaker.play_audio(output_audio, get_char_fn=kb.get_char)
                 is_speaking = False
+
+                elapsed = time.monotonic() - t_start
+                log.info(f"[f] Task finished (took {elapsed:.2f} sec)")
 
                 if action == "q":
                     break
@@ -162,6 +166,8 @@ def main():
                     break
                 if record_result != "ok":
                     continue
+
+                t_start = time.monotonic()
 
                 # ASR via Gemini (native audio multimodal)
                 transcribed = pipeline.speech_to_text(input_audio)
@@ -180,6 +186,9 @@ def main():
                 speaker.synthesize(response_text, output_audio)
                 action = speaker.play_audio(output_audio, get_char_fn=kb.get_char)
                 is_speaking = False
+
+                elapsed = time.monotonic() - t_start
+                log.info(f"[r] Task finished (took {elapsed:.2f} sec)")
 
                 if action == "q":
                     break
