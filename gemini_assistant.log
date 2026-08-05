@@ -149,3 +149,19 @@ mcp.shared.exceptions.McpError: Connection closed
 14:51:12 [DEBUG] text=Gambar tersebut menampilkan sebuah buku atau dokumen yang terbuka, dengan halaman yang berisi teks. Teks tersebut tampak dalam bahasa yang tidak dapat saya identifikasi secara pasti dari gambar resolusi rendah ini. Tidak ada teks yang signifikan yang dapat saya transkripsikan secara verbatim., phonemes=[['ɡ', 'ˈ', 'a', 'm', 'b', 'a', 'r', ' ', 't', 'ə', 'r', 's', 'ˈ', 'ɛ', 'b', 'u', 't', ' ', 'm', 'ə', 'n', 'a', 'm', 'p', 'ˈ', 'i', 'l', 'k', 'a', 'n', ' ', 's', 'ə', 'b', 'ˈ', 'u', 'a', 'h', ' ', 'b', 'ˈ', 'u', 'k', 'u', ' ', 'ˌ', 'a', 't', 'a', 'ʊ', ' ', 'd', 'o', 'k', 'ˈ', 'u', 'm', 'ə', 'n', ' ', 'j', 'a', 'ŋ', ' ', 't', 'ə', 'r', 'b', 'ˈ', 'u', 'k', 'a', ',', ' ', 'd', 'ˈ', 'ɛ', 'ŋ', 'a', 'n', ' ', 'h', 'a', 'l', 'ˈ', 'a', 'm', 'a', 'n', ' ', 'j', 'a', 'ŋ', ' ', 'b', 'ə', 'r', 'ˈ', 'i', 's', 'i', ' ', 't', 'ˈ', 'ɛ', 'k', 's', '.'], ['t', 'ˈ', 'ɛ', 'k', 's', ' ', 't', 'ə', 'r', 's', 'ˈ', 'ɛ', 'b', 'u', 't', ' ', 't', 'ˈ', 'a', 'm', 'p', 'a', 'k', ' ', 'd', 'ˈ', 'a', 'l', 'a', 'm', ' ', 'b', 'a', 'h', 'ˈ', 'a', 's', 'a', ' ', 'j', 'a', 'ŋ', ' ', 't', 'ˈ', 'i', 'd', 'a', 'k', ' ', 'd', 'ˈ', 'a', 'p', 'a', 't', ' ', 's', 'ˈ', 'a', 'j', 'a', ' ', 'ˌ', 'i', 'd', 'ə', 'n', 't', 'ˌ', 'i', 'f', 'i', 'k', 'ˈ', 'a', 's', 'i', ' ', 's', 'ə', 't', 'ʃ', 'ˈ', 'a', 'r', 'a', ' ', 'p', 'ˈ', 'a', 's', 't', 'i', ' ', 'd', 'ˌ', 'a', 'r', 'i', ' ', 'ɡ', 'ˈ', 'a', 'm', 'b', 'a', 'r', ' ', 'r', 'ˌ', 'ɛ', 's', 'o', 'l', 'ˈ', 'u', 's', 'i', ' ', 'r', 'ˈ', 'ɛ', 'n', 'd', 'a', 'h', ' ', 'ˈ', 'i', 'n', 'i', '.'], ['t', 'ˈ', 'i', 'd', 'a', 'k', ' ', 'ˈ', 'a', 'd', 'a', ' ', 't', 'ˈ', 'ɛ', 'k', 's', ' ', 'j', 'a', 'ŋ', ' ', 's', 'ˌ', 'i', 'ɡ', 'n', 'i', 'f', 'ˈ', 'i', 'k', 'a', 'n', ' ', 'j', 'a', 'ŋ', ' ', 'd', 'ˈ', 'a', 'p', 'a', 't', ' ', 's', 'ˈ', 'a', 'j', 'a', ' ', 't', 'r', 'ˌ', 'a', 'n', 's', 'k', 'r', 'i', 'p', 's', 'ˈ', 'i', 'k', 'a', 'n', ' ', 's', 'ə', 't', 'ʃ', 'ˈ', 'a', 'r', 'a', ' ', 'v', 'ə', 'r', 'b', 'ˈ', 'a', 't', 'i', 'm', '.']]
 14:51:13 [INFO] TTS synthesis complete [0.82s].
 14:51:13 [INFO] Playing response audio...
+08:27:19 [INFO] Loading [1/3] Initializing Gemini client + MCP tools...
+08:27:21 [INFO] Gemini client initialized.
+08:27:21 [DEBUG] Using selector: EpollSelector
+08:27:22 [INFO] MCP server 'karen-web' started — 2 tool(s): ['cari_web', 'cek_cuaca']
+08:27:23 [INFO] MCP server 'karen-info' started — 2 tool(s): ['cari_info_organisasi', 'get_semua_info_organisasi']
+08:27:26 [INFO] MCP server 'karen-vision' started — 5 tool(s): ['cek_sekitar', 'baca_teks', 'analisa_foto', 'simpan_frame', 'deteksi_objek']
+08:27:26 [INFO] MCPHost ready — 9 tools across 3 server(s)
+08:27:26 [INFO] Tools available: ['cari_web', 'cek_cuaca', 'cari_info_organisasi', 'get_semua_info_organisasi', 'cek_sekitar', 'baca_teks', 'analisa_foto', 'simpan_frame', 'deteksi_objek']
+08:27:26 [INFO] Loading [2/3] Loading TTS model (Piper)...
+08:27:26 [INFO] Loading Piper TTS voice model...
+08:27:26 [DEBUG] Guessing voice config path: models/piper/id_ID-news_tts-medium.onnx.json
+08:27:28 [INFO] Piper TTS loaded successfully.
+08:27:28 [INFO] Loading [3/3] Loading VAD model (Silero)...
+08:27:28 [INFO] Loading Silero VAD model...
+08:27:28 [INFO] Silero VAD loaded successfully.
+08:27:28 [INFO] KAREN (Gemini) ready. Press 'r' to record, 'f' to take photo, 'c' to clear history, 'q' to quit.

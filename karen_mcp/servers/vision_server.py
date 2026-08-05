@@ -207,6 +207,26 @@ class _CameraThread(threading.Thread):
         actual_w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
         actual_h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         log.info(f"_CameraThread started (camera index={idx}, capture {actual_w}x{actual_h})")
+
+        # Opsional: kunci shutter lebih cepat untuk mengurangi motion blur.
+        # Hanya dilakukan bila di-.env di-activate; None = kamera pakai default-nya.
+        def _try_set(prop, name, value):
+            try:
+                cap.set(prop, value)
+                actual = cap.get(prop)
+                log.info(f"_CameraThread {name} -> requested {value}, actual {actual}")
+            except Exception as e:  # pragma: no cover
+                log.warning(f"_CameraThread cannot set {name}: {e}")
+
+        if config.CAMERA_MANUAL_EXPOSURE:
+            if config.CAMERA_EXPOSURE_TIME is not None:
+                _try_set(cv2.CAP_PROP_AUTO_EXPOSURE, "auto_exposure", 1)   # Manual Mode dulu
+                _try_set(cv2.CAP_PROP_EXPOSURE, "exposure", int(config.CAMERA_EXPOSURE_TIME))
+            else:
+                log.info("_CameraThread CAMERA_MANUAL_EXPOSURE=true but no CAMERA_EXPOSURE_TIME; keeping auto-exposure")
+        if config.CAMERA_SHARPNESS is not None:
+            _try_set(cv2.CAP_PROP_SHARPNESS, "sharpness", int(config.CAMERA_SHARPNESS))
+
         last_yolo_time = 0.0
 
         try:

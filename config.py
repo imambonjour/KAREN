@@ -13,6 +13,16 @@ CAMERA_PREVIEW = os.environ.get("CAMERA_PREVIEW", "false").lower() in ("true", "
 CAMERA_WIDTH = int(os.environ.get("CAMERA_WIDTH", "1280"))
 CAMERA_HEIGHT = int(os.environ.get("CAMERA_HEIGHT", "720"))
 
+# Manual exposure / shutter speed tuning (opsional, per-de&perangkat).
+# None = jangan sentuh, kamera pakai nilai default-nya sendiri.
+# Isi di .env bila ingin mengunci shutter lebih cepat (mengurangi blur):
+#   CAMERA_MANUAL_EXPOSURE=true   # nonaktifkan auto-exposure (Manual Mode)
+#   CAMERA_EXPOSURE_TIME=200      # kecil = shutter cepat; range bervariasi per webcam (cek via `v4l2-ctl -L`)
+#   CAMERA_SHARPNESS=3            # naikkan ketajaman (0-10)
+CAMERA_MANUAL_EXPOSURE = os.environ.get("CAMERA_MANUAL_EXPOSURE", "").lower() in ("true", "1", "yes")
+CAMERA_EXPOSURE_TIME   = os.environ.get("CAMERA_EXPOSURE_TIME")
+CAMERA_SHARPNESS       = os.environ.get("CAMERA_SHARPNESS")
+
 # Audio Device Settings (PipeWire / ALSA / PulseAudio / SoundCard)
 # AUDIO_INPUT_DEVICE: Nama/ID node target pw-record atau ALSA device (misal: "alsa_input.usb-xxx", "1", "default")
 AUDIO_INPUT_DEVICE = os.environ.get("AUDIO_INPUT_DEVICE", None)
