@@ -42,8 +42,14 @@ class GemmaPipeline:
     def stop(self):
         """Stop llama-server and MCP host."""
         if self._loop:
-            self._loop.run_until_complete(self._mcp_host.stop())
-            self._loop.close()
+            try:
+                self._loop.run_until_complete(self._mcp_host.stop())
+            except Exception:
+                log.warning("MCP host cleanup raised an error (ignored during shutdown).", exc_info=True)
+            try:
+                self._loop.close()
+            except Exception:
+                pass
             self._loop = None
         if self._proc:
             log.info("Terminating llama-server...")
@@ -238,7 +244,7 @@ class GemmaPipeline:
                 "max_tokens": 200,
                 "chat_template_kwargs": {"enable_thinking": False},
             },
-            timeout=30,
+            timeout=180,
         )
         response.raise_for_status()
         message = response.json()["choices"][0]["message"]
@@ -277,7 +283,7 @@ class GemmaPipeline:
                     "max_tokens": 200,
                     "chat_template_kwargs": {"enable_thinking": False},
                 },
-                timeout=30,
+                timeout=180,
             )
             follow_up.raise_for_status()
             raw_response_text = follow_up.json()["choices"][0]["message"]["content"].strip()
@@ -313,3 +319,4 @@ class GemmaPipeline:
         text = re.sub(r"</?think>", "", text)
         text = re.sub(r"\s+", " ", text).strip()
         return text.strip('"').strip("'").strip()
+        
